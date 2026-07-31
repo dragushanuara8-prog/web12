@@ -212,6 +212,18 @@ function intersect(e,objs){
 }
 
 // --- MOUSE ---
+let houseSelected=!1,outline=null;
+
+function drawHouseOutline(){
+  if(outline){S.remove(outline);outline=null}
+  if(parts.length===0)return;
+  const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));
+  const sz=new THREE.Vector3();box.getSize(sz);const ct=new THREE.Vector3();box.getCenter(ct);
+  const geo=new THREE.BoxGeometry(sz.x+.2,sz.y+.2,sz.z+.2);
+  outline=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:'#3b82f6',transparent:!0,opacity:.9,depthTest:!0}));
+  outline.position.copy(ct);S.add(outline);houseSelected=!0;
+}
+function deselectHouse(){houseSelected=!1;if(outline){S.remove(outline);outline=null}}
 cv.addEventListener('pointermove',e=>{
   if(dMode||!['foundation','wall','window','door','roof','floor','fence','furniture'].includes(tool)){if(preview){S.remove(preview);preview=null}return}
   const objs=[gMesh,...parts];const is=intersect(e,objs);
@@ -263,6 +275,7 @@ function focusHouse(){
   const c=new THREE.Vector3(),s=new THREE.Vector3();box.getCenter(c);box.getSize(s);
   const d=Math.max(s.x,s.y,s.z)*1.6;
   ctrl.target.copy(c);C.position.set(c.x+d*.6,c.y+d*.4,c.z+d*.6);ctrl.update();
+  drawHouseOutline();
 }
 window.focusHouse=focusHouse;
 

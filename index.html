@@ -178,8 +178,11 @@ function snap(v){return Math.round(v/GS)*GS}
 function mkPreview(w,h,d){const g=new THREE.BoxGeometry(w||4,.05,d||3);const m=new THREE.MeshBasicMaterial({color:'#c49a6c',opacity:.35,transparent:!0,depthTest:!1,depthWrite:!1});const mesh=new THREE.Mesh(g,m);mesh.renderOrder=999;return mesh}
 
 // --- BUILD FUNCTIONS ---
-function addPart(grp,type){grp.name=type;grp.userData={type};parts.push(grp);S.add(grp);return grp}
-function addFurn(grp,type){grp.name='furn_'+type;grp.userData={type:'furniture',fType:type};furn.push(grp);S.add(grp);return grp}
+let houseGroup=new THREE.Group();
+houseGroup.name='HouseGroup';S.add(houseGroup);
+
+function addPart(grp,type){grp.name=type;grp.userData={type};parts.push(grp);houseGroup.add(grp);return grp}
+function addFurn(grp,type){grp.name='furn_'+type;grp.userData={type:'furniture',fType:type};furn.push(grp);houseGroup.add(grp);return grp}
 
 function buildFoundation(x,z){
   const g=new THREE.Group();const b=new THREE.BoxGeometry(8,.25,10);
@@ -295,7 +298,7 @@ cv.addEventListener('pointermove',e=>{
 });
 cv.addEventListener('click',e=>{
   if(e.button!==0)return;
-  if(dMode){const all=[...parts,...furn];const is=intersect(e,all);if(is.length){let obj=is[0].object;while(obj.parent&&obj.parent!==S)obj=obj.parent;S.remove(obj);parts=parts.filter(p=>p!==obj);furn=furn.filter(f=>f!==obj);deselectHouse()}return}
+  if(dMode){const all=[...parts,...furn];const is=intersect(e,all);if(is.length){let obj=is[0].object;while(obj.parent&&obj.parent!==houseGroup)obj=obj.parent;houseGroup.remove(obj);parts=parts.filter(p=>p!==obj);furn=furn.filter(f=>f!==obj);deselectHouse()}return}
   // Check if clicking on house parts — select whole house
   if(parts.length>0){const is=intersect(e,parts);if(is.length){selectHouse();return}}
   // Check if clicking on furniture
@@ -366,7 +369,7 @@ function loadHouse(){
     d.furn.forEach(f=>{buildFurniture(f.pos[0],f.pos[2],f.type)});
   }catch(e){alert('Load failed')}
 }
-function clearAll(){if(confirm('Clear everything?')){parts.forEach(p=>S.remove(p));furn.forEach(f=>S.remove(f));parts=[];furn=[]}}
+function clearAll(){if(confirm('Clear everything?')){while(houseGroup.children.length>0)houseGroup.remove(houseGroup.children[0]);parts=[];furn=[];deselectHouse()}}
 window.saveHouse=saveHouse;window.loadHouse=loadHouse;window.clearAll=clearAll;
 
 // --- DAY/NIGHT ---

@@ -96,7 +96,6 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <script src="https://cdn.jsdelivr.net/npm/three@0.145.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 const THREE=window.THREE;
-const OrbitControls=THREE.OrbitControls;
 
 const cv=document.getElementById('cv');
 const R=new THREE.WebGLRenderer({canvas:cv,antialias:!0,alpha:!1});
@@ -110,7 +109,7 @@ const C=new THREE.PerspectiveCamera(50,2,.3,400);
 C.position.set(30,20,30);C.lookAt(0,1,0);
 
 let camMode='normal';
-const ctrl=new OrbitControls(C,cv);
+const ctrl=new THREE.OrbitControls(C,cv);
 ctrl.target.set(0,1.5,0);ctrl.enableDamping=!0;ctrl.dampingFactor=.08;
 ctrl.minDistance=2;ctrl.maxDistance=300;ctrl.maxPolarAngle=Math.PI*.49;
 ctrl.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.ROTATE};

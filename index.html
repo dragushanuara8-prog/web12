@@ -43,14 +43,15 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <div id="info"><em id="it">🧱 Foundation</em> — Click ground to place</div>
 <div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>1-8: Select tool<br>F: Focus house<br>WASD: Walk</div>
 
-<script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
-<script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const cv=document.getElementById('cv');
 const R=new THREE.WebGLRenderer({canvas:cv,antialias:!0,alpha:!1});
-R.shadowMap.enabled=!0;R.shadowMap.type=THREE.PCFSoftShadowMap;
-R.toneMapping=THREE.ACESFilmicToneMapping||THREE.ReinhardToneMapping;R.toneMappingExposure=1.1;
+R.shadowMap.enabled=!0;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputColorSpace=THREE.SRGBColorSpace;
+R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
 
 const S=new THREE.Scene();
 S.background=new THREE.Color('#87CEEB');S.fog=new THREE.Fog('#87CEEB',60,180);
@@ -58,75 +59,12 @@ S.background=new THREE.Color('#87CEEB');S.fog=new THREE.Fog('#87CEEB',60,180);
 const C=new THREE.PerspectiveCamera(50,2,.5,250);
 C.position.set(30,20,30);C.lookAt(0,1,0);
 
-const ctrl=new THREE.OrbitControls(C,cv);
+const ctrl=new OrbitControls(C,cv);
 ctrl.target.set(0,1.5,0);ctrl.enableDamping=!0;ctrl.dampingFactor=.1;
-ctrl.minDistance=1.5;ctrl.maxDistance=100;ctrl.maxPolarAngle=Math.PI*.49;
+ctrl.minDistance=2;ctrl.maxDistance=100;ctrl.maxPolarAngle=Math.PI*.49;
 ctrl.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.ROTATE};
 ctrl.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
 ctrl.update();
-
-// --- SELECTION & SMOOTH ZOOM ---
-let houseSelected=!1,outline=null,zoomTarget=null,zoomStart=null,zoomProgress=0,zoomDuration=1.2;
-const NO_TOOL=!['foundation','wall','window','door','roof','floor','fence','furniture'].includes(tool);
-
-function isToolActive(){return['foundation','wall','window','door','roof','floor','fence','furniture'].includes(tool)}
-
-function drawHouseOutline(){
-  if(outline){S.remove(outline);outline=null}
-  if(parts.length===0)return;
-  const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));
-  const size=new THREE.Vector3();box.getSize(size);const center=new THREE.Vector3();box.getCenter(center);
-  const geo=new THREE.BoxGeometry(size.x+.2,size.y+.2,size.z+.2);
-  const edges=new THREE.EdgesGeometry(geo);
-  outline=new THREE.LineSegments(edges,new THREE.LineBasicMaterial({color:'#3b82f6',linewidth:2,transparent:!0,opacity:.9,depthTest:!0}));
-  outline.position.copy(center);S.add(outline);
-}
-
-function selectHouse(){
-  if(parts.length===0)return;houseSelected=!0;drawHouseOutline();
-  const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));
-  const c=new THREE.Vector3(),s=new THREE.Vector3();box.getCenter(c);box.getSize(s);
-  const d=Math.max(s.x,s.y,s.z)*1.7;
-  ctrl.target.copy(c);zoomTarget=new THREE.Vector3(c.x+d*.6,c.y+d*.4,c.z+d*.6);zoomStart=C.position.clone();zoomProgress=0;
-  document.getElementById('info').style.color='#3b82f6';document.getElementById('it').textContent='🏠 House Selected';
-}
-function deselectHouse(){
-  houseSelected=!1;if(outline){S.remove(outline);outline=null}
-  document.getElementById('info').style.color='#bbb';upInfo();
-}
-
-// Wheel zoom on selected house
-cv.addEventListener('wheel',e=>{
-  e.preventDefault();
-  if(houseSelected&&parts.length>0){
-    const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));const size=new THREE.Vector3();box.getSize(size);const center=new THREE.Vector3();box.getCenter(center);
-    const maxDim=Math.max(size.x,size.y,size.z);const dir=C.position.clone().sub(center).normalize();
-    const factor=e.deltaY>0?1.08:.92;const curDist=C.position.distanceTo(center);
-    const newDist=Math.max(maxDim*.7,Math.min(ctrl.maxDistance*.9,curDist*factor));
-    ctrl.target.copy(center);
-    zoomTarget=center.clone().add(dir.multiplyScalar(newDist));zoomStart=C.position.clone();zoomProgress=0;
-  }
-},{passive:!1});
-
-// Click handler
-cv.addEventListener('click',e=>{
-  if(e.button!==0)return;
-  // Click on house part → select entire house
-  const all=[...parts,...furn];const is=intersect(e,all);
-  if(is.length&&!dMode&&!isToolActive()){
-    selectHouse();return
-  }
-  // Click ground → deselect
-  if(!dMode&&!isToolActive()){deselectHouse();return}
-  // Delete mode
-  if(dMode){const is2=intersect(e,[...parts,...furn]);if(is2.length){let obj=is2[0].object;while(obj.parent&&obj.parent!==S)obj=obj.parent;S.remove(obj);parts=parts.filter(p=>p!==obj);furn=furn.filter(f=>f!==obj);deselectHouse()}return}
-  // Build mode
-  const is3=intersect(e,[gMesh,...parts]);if(!is3.length)return;deselectHouse();
-  const p=is3[0].point;p.x=snap(p.x);p.z=snap(p.z);
-  const fn={foundation:()=>buildFoundation(p.x,p.z),wall:()=>buildWall(p.x,p.z),window:()=>buildWindow(p.x,p.z),door:()=>buildDoor(p.x,p.z),roof:()=>buildRoof(p.x,p.z),floor:()=>buildFloor(p.x,p.z),fence:()=>buildFence(p.x,p.z),furniture:()=>buildFurniture(p.x,p.z,['sofa','table','chair','lamp','plant','bed','shelf'][Math.floor(Math.random()*7)])};
-  if(fn[tool])fn[tool]();
-  if(preview){S.remove(preview);preview=null}
-});
 
 // --- LIGHTING ---
 const sun=new THREE.DirectionalLight('#fffdf5',5);
@@ -285,6 +223,15 @@ cv.addEventListener('pointermove',e=>{
     preview.position.set(p.x,y,p.z);
   }else if(preview){S.remove(preview);preview=null}
 });
+cv.addEventListener('click',e=>{
+  if(e.button!==0)return;
+  if(dMode){const all=[...parts,...furn];const is=intersect(e,all);if(is.length){let obj=is[0].object;while(obj.parent&&obj.parent!==S)obj=obj.parent;S.remove(obj);parts=parts.filter(p=>p!==obj);furn=furn.filter(f=>f!==obj)}return}
+  const objs=[gMesh,...parts];const is=intersect(e,objs);if(!is.length)return;
+  const p=is[0].point;p.x=snap(p.x);p.z=snap(p.z);
+  const fn={foundation:()=>buildFoundation(p.x,p.z),wall:()=>buildWall(p.x,p.z),window:()=>buildWindow(p.x,p.z),door:()=>buildDoor(p.x,p.z),roof:()=>buildRoof(p.x,p.z),floor:()=>buildFloor(p.x,p.z),fence:()=>buildFence(p.x,p.z),furniture:()=>buildFurniture(p.x,p.z,['sofa','table','chair','lamp','plant','bed','shelf'][Math.floor(Math.random()*7)])};
+  if(fn[tool])fn[tool]();
+  if(preview){S.remove(preview);preview=null}
+});
 
 // --- KEYBOARD ---
 window.addEventListener('keydown',e=>{
@@ -311,7 +258,11 @@ function walk(){
 }
 
 function focusHouse(){
-  selectHouse();
+  if(!parts.length){ctrl.target.set(0,1,0);C.position.set(30,20,30);ctrl.update();return}
+  const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));
+  const c=new THREE.Vector3(),s=new THREE.Vector3();box.getCenter(c);box.getSize(s);
+  const d=Math.max(s.x,s.y,s.z)*1.6;
+  ctrl.target.copy(c);C.position.set(c.x+d*.6,c.y+d*.4,c.z+d*.6);ctrl.update();
 }
 window.focusHouse=focusHouse;
 

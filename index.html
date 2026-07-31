@@ -83,12 +83,13 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <button id="t-rotate" onclick="rMode=!rMode;this.classList.toggle('sel',rMode)">🔄 Rotate</button>
 <button id="t-delete" onclick="dMode=!dMode;this.classList.toggle('sel',dMode);upInfo()">🗑️</button>
 <button onclick="focusHouse()">🔍 Focus</button>
+<button id="cam-label" onclick="cycleCamMode()">📷 normal</button>
 <button onclick="saveHouse()">💾 Save</button>
 <button onclick="loadHouse()">📂 Load</button>
 <button onclick="clearAll()">🧹 Clear</button>
 </div></div>
 <div id="info"><em id="it">🧱 Foundation</em> — Click ground to place</div>
-<div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>1-8: Select tool<br>F: Focus house<br>WASD: Walk</div>
+<div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>C: Camera mode<br>1-8: Select tool<br>F: Focus house<br>B: Auto-build<br>WASD: Walk</div>
 
 <script>function startGame(){document.getElementById('site').classList.add('hid');document.body.style.overflow='hidden'}</script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
@@ -105,15 +106,27 @@ R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
 const S=new THREE.Scene();
 S.background=new THREE.Color('#87CEEB');S.fog=new THREE.Fog('#87CEEB',60,180);
 
-const C=new THREE.PerspectiveCamera(50,2,.5,250);
+const C=new THREE.PerspectiveCamera(50,2,.3,400);
 C.position.set(30,20,30);C.lookAt(0,1,0);
 
+let camMode='normal';
 const ctrl=new OrbitControls(C,cv);
-ctrl.target.set(0,1.5,0);ctrl.enableDamping=!0;ctrl.dampingFactor=.1;
-ctrl.minDistance=2;ctrl.maxDistance=100;ctrl.maxPolarAngle=Math.PI*.49;
+ctrl.target.set(0,1.5,0);ctrl.enableDamping=!0;ctrl.dampingFactor=.08;
+ctrl.minDistance=2;ctrl.maxDistance=300;ctrl.maxPolarAngle=Math.PI*.49;
 ctrl.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.ROTATE};
 ctrl.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
 ctrl.update();
+
+function cycleCamMode(){
+  const modes=['normal','overview','close'];
+  const i=modes.indexOf(camMode);camMode=modes[(i+1)%3];
+  if(camMode==='overview'){frameHouse();ctrl.maxDistance=500;ctrl.minDistance=15}
+  else if(camMode==='close'){ctrl.maxDistance=15;ctrl.minDistance=.5;ctrl.maxPolarAngle=Math.PI*.6}
+  else{ctrl.maxDistance=300;ctrl.minDistance=2;ctrl.maxPolarAngle=Math.PI*.49;frameHouse()}
+  document.getElementById('cam-label').textContent='📷 '+camMode;
+  ctrl.update();
+}
+window.cycleCamMode=cycleCamMode;
 
 // --- LIGHTING ---
 const sun=new THREE.DirectionalLight('#fffdf5',5);
@@ -335,6 +348,7 @@ window.addEventListener('keydown',e=>{
   if(e.key==='Delete'||e.key==='Backspace'){dMode=!dMode;document.getElementById('t-delete').classList.toggle('sel',dMode);upInfo()}
   if(e.key==='f'||e.key==='F')focusHouse();
   if(e.key==='b'||e.key==='B')buildCompleteHouse(0,0);
+  if(e.key==='c'||e.key==='C')cycleCamMode();
   if(e.key>='1'&&e.key<='8'){const tl=['foundation','wall','window','door','roof','floor','fence','furniture'];setTool(tl[parseInt(e.key)-1])}
 });
 window.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=!1});
@@ -344,13 +358,18 @@ function walk(){
   const sp=walkSpeed;const dir=new THREE.Vector3();
   C.getWorldDirection(dir);dir.y=0;dir.normalize();
   const right=new THREE.Vector3().crossVectors(dir,new THREE.Vector3(0,1,0)).normalize();
-  const pos=C.position.clone();
-  if(keys.w)pos.addScaledVector(dir,sp);
-  if(keys.s)pos.addScaledVector(dir,-sp);
-  if(keys.a)pos.addScaledVector(right,-sp);
-  if(keys.d)pos.addScaledVector(right,sp);
-  const dist=pos.distanceTo(ctrl.target);
-  if(dist<ctrl.maxDistance&&dist>ctrl.minDistance){C.position.copy(pos);ctrl.target.addScaledVector(dir,(keys.w?sp:0)+(keys.s?-sp:0));ctrl.target.addScaledVector(right,(keys.d?sp:0)+(keys.a?-sp:0))}
+  const pos=C.position.clone(),tgt=ctrl.target.clone();
+  if(keys.w){pos.addScaledVector(dir,sp);tgt.addScaledVector(dir,sp)}
+  if(keys.s){pos.addScaledVector(dir,-sp);tgt.addScaledVector(dir,-sp)}
+  if(keys.a){pos.addScaledVector(right,-sp);tgt.addScaledVector(right,-sp)}
+  if(keys.d){pos.addScaledVector(right,sp);tgt.addScaledVector(right,sp)}
+  // Wall collision check
+  let blocked=!1;
+  if(parts.length>0){const rc=new THREE.Raycaster(pos.clone(),dir,0,sp*2);const hits=rc.intersectObjects(parts,!0);if(hits.length>0)blocked=!0}
+  if(!blocked){
+    const dist=pos.distanceTo(tgt);
+    if(dist<ctrl.maxDistance&&dist>ctrl.minDistance){C.position.copy(pos);ctrl.target.copy(tgt)}
+  }
 }
 
 function focusHouse(){frameHouse()}

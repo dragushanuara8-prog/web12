@@ -162,14 +162,14 @@ const GS=1;
 
 // Materials
 const MATS={
-  foundation:new THREE.MeshStandardMaterial({color:'#b0b0b0',roughness:.35,metalness:.1}),
-  wall:new THREE.MeshStandardMaterial({color:'#f5f0e8',roughness:.4}),
-  wallDark:new THREE.MeshStandardMaterial({color:'#e8e0d5',roughness:.45}),
+  foundation:new THREE.MeshStandardMaterial({color:'#6B4528',roughness:.4,metalness:.05}),
+  wall:new THREE.MeshStandardMaterial({color:'#d4b896',roughness:.45}),
+  wallDark:new THREE.MeshStandardMaterial({color:'#c4a060',roughness:.5}),
   wood:new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.3}),
   windowGlass:new THREE.MeshPhysicalMaterial({color:'#d8e8ff',roughness:.05,metalness:.02,transmission:.4,opacity:.75,transparent:!0}),
-  roof:new THREE.MeshStandardMaterial({color:'#4a3520',roughness:.5}),
-  floorWood:new THREE.MeshStandardMaterial({color:'#c4a060',roughness:.3}),
-  fence:new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}),
+  roof:new THREE.MeshStandardMaterial({color:'#5C3A1E',roughness:.45}),
+  floorWood:new THREE.MeshStandardMaterial({color:'#b8956a',roughness:.25}),
+  fence:new THREE.MeshStandardMaterial({color:'#d4b896',roughness:.4}),
   doorHandle:new THREE.MeshStandardMaterial({color:'#d4a84b',roughness:.2,metalness:.9}),
 };
 
@@ -183,7 +183,7 @@ function addFurn(grp,type){grp.name='furn_'+type;grp.userData={type:'furniture',
 function buildFoundation(x,z){
   const g=new THREE.Group();const b=new THREE.BoxGeometry(8,.25,10);
   const m=new THREE.Mesh(b,MATS.foundation);m.position.y=.125;m.castShadow=!0;m.receiveShadow=!0;g.add(m);
-  const e=new THREE.BoxGeometry(8.1,.08,10.1);const me=new THREE.Mesh(e,new THREE.MeshStandardMaterial({color:'#999',roughness:.5}));
+  const e=new THREE.BoxGeometry(8.1,.08,10.1);const me=new THREE.Mesh(e,new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.3}));
   me.position.y=.29;g.add(me);g.position.set(snap(x),0,snap(z));return addPart(g,'foundation');
 }
 function buildWall(x,z,ry=0){
@@ -191,7 +191,7 @@ function buildWall(x,z,ry=0){
   const m=new THREE.Mesh(b,MATS.wallDark);m.position.y=1.5;m.castShadow=!0;m.receiveShadow=!0;g.add(m);
   const m2=new THREE.Mesh(b.clone(),MATS.wall);m2.position.y=3;m2.castShadow=!0;m2.receiveShadow=!0;g.add(m2);
   const sk=new THREE.BoxGeometry(5.02,.06,3.02);
-  const skM=new THREE.Mesh(sk,new THREE.MeshStandardMaterial({color:'#ddd',roughness:.5}));
+  const skM=new THREE.Mesh(sk,new THREE.MeshStandardMaterial({color:'#c4a060',roughness:.4}));
   skM.position.y=.03;g.add(skM);
   g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'wall');
 }
@@ -199,7 +199,7 @@ function buildWindow(x,z,ry=0){
   const g=new THREE.Group();
   const f=new THREE.BoxGeometry(.12,2,1.8);const fm=new THREE.Mesh(f,MATS.wood);fm.position.y=1.5;fm.castShadow=!0;g.add(fm);
   const gl=new THREE.BoxGeometry(.06,1.7,1.5);const gm=new THREE.Mesh(gl,MATS.windowGlass);gm.position.y=1.5;g.add(gm);
-  const si=new THREE.BoxGeometry(.04,2.1,2);const sm=new THREE.Mesh(si,new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}));
+  const si=new THREE.BoxGeometry(.04,2.1,2);const sm=new THREE.Mesh(si,new THREE.MeshStandardMaterial({color:'#c4a060',roughness:.35}));
   sm.position.y=1.5;g.add(sm);g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'window');
 }
 function buildDoor(x,z,ry=0){
@@ -207,7 +207,7 @@ function buildDoor(x,z,ry=0){
   const d=new THREE.BoxGeometry(.2,3,.9);const dm=new THREE.Mesh(d,new THREE.MeshStandardMaterial({color:'#5c3a1e',roughness:.25}));
   dm.position.y=1.5;dm.castShadow=!0;g.add(dm);
   const h=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,.15,8),MATS.doorHandle);h.position.set(.12,1.35,.3);h.rotation.x=Math.PI/2;g.add(h);
-  const fm=new THREE.BoxGeometry(.28,3.1,1.1);const fmm=new THREE.Mesh(fm,new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}));
+  const fm=new THREE.BoxGeometry(.28,3.1,1.1);const fmm=new THREE.Mesh(fm,new THREE.MeshStandardMaterial({color:'#b8956a',roughness:.35}));
   fmm.position.y=1.5;g.add(fmm);g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'door');
 }
 function buildRoof(x,z){

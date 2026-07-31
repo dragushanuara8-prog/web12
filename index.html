@@ -91,10 +91,11 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>1-8: Select tool<br>F: Focus house<br>WASD: Walk</div>
 
 <script>function startGame(){document.getElementById('site').classList.add('hid');document.body.style.overflow='hidden'}</script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const THREE=window.THREE;
+const OrbitControls=THREE.OrbitControls;
 
 const cv=document.getElementById('cv');
 const R=new THREE.WebGLRenderer({canvas:cv,antialias:!0,alpha:!1});

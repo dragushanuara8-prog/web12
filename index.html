@@ -58,12 +58,26 @@ scene.add(sun);
 scene.add(new THREE.AmbientLight(0xbcd4f0,1.8));
 scene.add(new THREE.HemisphereLight(0xbcd4f0,0x4a6a3a,1.2));
 
-// ── GROUND ──
+// Dark green rich grass
 const ground=new THREE.Mesh(
   new THREE.PlaneGeometry(120,120),
-  new THREE.MeshStandardMaterial({color:0x5a8a3a,roughness:0.9})
+  new THREE.MeshStandardMaterial({color:0x3d6b2e,roughness:0.85})
 );
 ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+
+// Brown earth plot where house goes
+const plot=new THREE.Mesh(
+  new THREE.PlaneGeometry(14,16),
+  new THREE.MeshStandardMaterial({color:0x8B6914,roughness:0.9})
+);
+plot.rotation.x=-Math.PI/2;plot.position.y=0.005;plot.receiveShadow=true;scene.add(plot);
+
+// Black asphalt road with white stripes
+const road=new THREE.Mesh(new THREE.PlaneGeometry(4,80),new THREE.MeshStandardMaterial({color:0x1a1a1a,roughness:0.95}));
+road.rotation.x=-Math.PI/2;road.position.set(20,0.02,0);road.receiveShadow=true;scene.add(road);
+const line=new THREE.Mesh(new THREE.PlaneGeometry(0.15,80),new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.3,emissive:0x222222,emissiveIntensity:0.3}));
+line.rotation.x=-Math.PI/2;line.position.set(18.8,0.03,0);scene.add(line);
+const line2=line.clone();line2.position.x=21.2;scene.add(line2);
 
 // ── SKY SPHERE ──
 const skySphere=new THREE.Mesh(
@@ -90,13 +104,6 @@ function addTree(x,z,s){
   g.position.set(x,0,z);scene.add(g);
 }
 for(let i=0;i<30;i++)addTree(-40+Math.random()*80,-40+Math.random()*80,0.6+Math.random()*0.8);
-
-// ── ROAD ──
-const road=new THREE.Mesh(new THREE.PlaneGeometry(4,80),new THREE.MeshStandardMaterial({color:0x444,roughness:0.95}));
-road.rotation.x=-Math.PI/2;road.position.set(20,0.02,0);road.receiveShadow=true;scene.add(road);
-const line=new THREE.Mesh(new THREE.PlaneGeometry(0.15,80),new THREE.MeshStandardMaterial({color:0xddd,roughness:0.6}));
-line.rotation.x=-Math.PI/2;line.position.set(18.8,0.03,0);scene.add(line);
-const line2=line.clone();line2.position.x=21.2;scene.add(line2);
 
 // ── ORBIT CONTROLS ──
 const controls=new THREE.OrbitControls(camera,renderer.domElement);

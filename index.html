@@ -17,9 +17,55 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 #info em{color:#c49a6c;font-style:normal}
 #hint{position:fixed;right:1rem;top:50%;transform:translateY(-50%);background:rgba(15,15,20,.78);color:#777;padding:.5rem .7rem;border-radius:8px;font-size:.55rem;line-height:1.7;pointer-events:none;z-index:10;border:1px solid rgba(255,255,255,.05)}
 #hint b{color:#aaa}
+
+#site{position:fixed;inset:0;z-index:100;background:#fff;color:#1a1a1a;font-family:'Inter',sans-serif;overflow-y:auto}#site.hid{display:none}
+.sn{position:fixed;top:0;left:0;right:0;z-index:101;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.08);padding:0 2rem}
+.sni{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.sl{font:700 .95rem 'Montserrat',sans-serif;color:#1a1a1a;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.sl span{background:#2d8a4e;color:#fff;width:28px;height:28px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800}
+.sls{display:flex;gap:2rem;list-style:none;align-items:center}.sls a{color:#666;font-weight:400;font-size:.78rem;text-decoration:none}.sls a:hover{color:#1a1a1a}
+.sb{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.2rem;border-radius:4px;font-weight:600;font-size:.75rem;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif;text-decoration:none}
+.sbg{background:#2d8a4e;color:#fff}.sbg:hover{background:#3cb868;transform:translateY(-1px)}
+.sbo{background:transparent;color:#1a1a1a;border:1px solid rgba(0,0,0,.15)}.sbo:hover{border-color:#2d8a4e}
+.shh{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 3rem}
+.shbg{position:absolute;inset:0}.shbg img{width:100%;height:100%;object-fit:cover}
+.shov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.75),rgba(0,0,0,.3),rgba(0,0,0,.1))}
+.shc{position:relative;z-index:2;max-width:1200px}
+.shbad{display:inline-flex;align-items:center;gap:.4rem;color:#2d8a4e;font-size:.72rem;font-weight:600;margin-bottom:1.5rem}.shbad .dot{width:6px;height:6px;background:#2d8a4e;border-radius:50%;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.shh h1{font:800 clamp(2rem,5vw,3.5rem)/1.08 'Montserrat',sans-serif;color:#fff;margin-bottom:1rem;max-width:600px}.shh h1 em{color:#2d8a4e;font-style:normal}
+.shh p{color:rgba(255,255,255,.55);font-size:1rem;max-width:480px;line-height:1.6;margin-bottom:2rem}
+.shbtns{display:flex;gap:.8rem;flex-wrap:wrap}
+.shst{display:flex;gap:2.5rem;margin-top:3rem}.shn{font:800 2rem 'Montserrat',sans-serif;color:#fff}.shl{color:rgba(255,255,255,.4);font-size:.7rem;text-transform:uppercase;letter-spacing:1px}
+.sss{padding:5rem 2rem}.sssi{max-width:1200px;margin:0 auto}
+.sslb{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:#2d8a4e;margin-bottom:1rem}
+.sss h2{font:700 clamp(1.4rem,3vw,2rem) 'Montserrat',sans-serif;margin-bottom:.5rem;color:#1a1a1a}.sssub{color:#666;max-width:500px;font-size:.85rem;line-height:1.6}
+.sg3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:2.5rem}
+.scd{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:1.6rem;transition:all .25s}.scd:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.06);border-color:#2d8a4e}
+.scii{width:40px;height:40px;background:rgba(45,138,78,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.8rem}
+.scd h3{font-size:.85rem;margin-bottom:.2rem}.scd p{font-size:.7rem;color:#666;line-height:1.5}
+.sf{background:#1a1a1a;color:rgba(255,255,255,.5);padding:3rem 2rem}.sfb{color:rgba(255,255,255,.3);font-size:.65rem;margin-top:.8rem;text-align:center}
 </style>
 </head>
 <body>
+<div id="site">
+<nav class="sn"><div class="sni"><a href="#" class="sl"><span>IB</span>InstaBuild</a><ul class="sls"><li><a href="#solutions">Solutions</a></li><li><a href="#about">About</a></li><li><a href="#products">Products</a></li><li><a href="#contact">Contact</a></li><li><button class="sb sbg" onclick="startGame()">🎮 3D Simulator</button></li></ul></div></nav>
+<section class="shh"><div class="shbg"><img src="https://tse2.mm.bing.net/th/id/OIP.Q8yJf3NA78L4MwBulESFuAHaEK" alt="" onerror="this.style.display='none'"></div><div class="shov"></div>
+<div class="shc"><div class="shbad"><span class="dot"></span>Modular Wood Construction Since 2005</div>
+<h1>Design & Build <em>In 3D</em></h1>
+<p>InstaBuild lets you design wooden homes in a full 3D environment. Build foundations, walls, roofs, and furnish every room — then walk through your creation.</p>
+<div class="shbtns"><button class="sb sbg" onclick="startGame()" style="font-size:.9rem;padding:.65rem 1.6rem">🎮 Launch 3D Builder</button><a href="#solutions" class="sb sbo">Explore</a></div>
+<div class="shst"><div><div class="shn">500+</div><div class="shl">Projects</div></div><div><div class="shn">18+</div><div class="shl">Years</div></div><div><div class="shn">3D</div><div class="shl">Builder</div></div><div><div class="shn">98%</div><div class="shl">Quality</div></div></div></div></section>
+<section class="sss" id="solutions"><div class="sssi"><span class="sslb">Solutions</span><h2>Wood Construction Systems</h2><p class="sssub">Precision-engineered modular homes — 28, 52, and 104 sqm.</p>
+<div class="sg3"><div class="scd"><div class="scii">🏠</div><h3>Compact 28sqm</h3><p>Starter home, 4 week delivery.</p></div><div class="scd"><div class="scii">🏡</div><h3>Family 52sqm</h3><p>2 bedrooms, 48hr assembly.</p></div><div class="scd"><div class="scii">🏘️</div><h3>Multi 104sqm</h3><p>3 floors, 50 year rating.</p></div></div></div></section>
+<section class="sss" id="about" style="background:#f8f7f5"><div class="sssi"><span class="sslb">About</span><h2>Quality & Innovation</h2>
+<div class="sg3"><div class="scd"><div class="scii">🎯</div><h3>Mission</h3><p>Revolutionize construction with precision wood engineering.</p></div><div class="scd"><div class="scii">🌱</div><h3>Sustainability</h3><p>100% sustainable timber. Carbon-negative.</p></div><div class="scd"><div class="scii">🏗️</div><h3>Innovation</h3><p>80,000 sqft CNC facility. ISO 14001.</p></div></div></div></section>
+<section class="sss" id="products"><div class="sssi"><span class="sslb">Products</span><h2>Premium Wood Materials</h2><div class="sg3" id="prodGrid"></div></div></section>
+<section class="sss" id="contact" style="background:#f8f7f5"><div class="sssi"><span class="sslb">Contact</span><h2>Get In Touch</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem"><div><p class="sssub" style="margin-bottom:1rem">Ready to build? Reach out and let's create something extraordinary.</p>
+<div class="scd" style="margin-bottom:1rem"><h3>📍 North America</h3><p style="margin-top:.3rem">3500 S Dupont Hwy, Dover, DE 19901</p><p style="margin-top:.5rem">📧 info@instabuild.com | 📞 +1 (503) 555-0147</p></div>
+<div class="scd"><h3>📍 Europe</h3><p style="margin-top:.3rem">Timber Road 12, London, UK</p><p style="margin-top:.5rem">📧 eu@instabuild.com | 📞 +44 20 7123 4567</p></div></div><div></div></div></div></section>
+<footer class="sf"><div class="sssi" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem"><div><h3 style="color:#fff;font-size:.9rem;margin-bottom:.8rem">InstaBuild</h3><p style="color:rgba(255,255,255,.5);font-size:.75rem">Precision wood construction since 2005.</p></div><div><h4 style="color:#fff;font-size:.7rem;margin-bottom:.8rem">Solutions</h4><ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem"><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">28sqm</a></li><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">52sqm</a></li><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">104sqm</a></li></ul></div><div><h4 style="color:#fff;font-size:.7rem;margin-bottom:.8rem">Company</h4><ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem"><li><a href="#about" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">About</a></li><li><a href="#products" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Products</a></li><li><a href="#contact" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Contact</a></li></ul></div></div><div class="sfb">&copy; 2026 InstaBuild.</div></footer>
+</div>
 <canvas id="cv"></canvas>
 <div id="ui"><div id="bar">
 <span class="s">🏗️ InstaBuild 3D</span>
@@ -43,6 +89,7 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <div id="info"><em id="it">🧱 Foundation</em> — Click ground to place</div>
 <div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>1-8: Select tool<br>F: Focus house<br>WASD: Walk</div>
 
+<script>function startGame(){document.getElementById('site').classList.add('hid');document.body.style.overflow='hidden'}</script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';

@@ -95,7 +95,6 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <script src="https://cdn.jsdelivr.net/npm/three@0.145.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.145.0/examples/js/controls/OrbitControls.js"></script>
 <script>
-window.addEventListener('load',function(){
 const THREE=window.THREE;
 
 const cv=document.getElementById('cv');
@@ -410,6 +409,6 @@ animate();
 function resize(){R.setSize(innerWidth,innerHeight);C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix()}
 window.addEventListener('resize',resize);resize();
 upInfo();
-});</script>
+</script>
 </body>
 </html>

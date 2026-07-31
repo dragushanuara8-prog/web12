@@ -92,15 +92,15 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
 <div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>C: Camera mode<br>1-8: Select tool<br>F: Focus house<br>B: Auto-build<br>WASD: Walk</div>
 
 <script>function startGame(){document.getElementById('site').classList.add('hid');document.body.style.overflow='hidden'}</script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.145.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.145.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 const THREE=window.THREE;
 const OrbitControls=THREE.OrbitControls;
 
 const cv=document.getElementById('cv');
 const R=new THREE.WebGLRenderer({canvas:cv,antialias:!0,alpha:!1});
-R.shadowMap.enabled=!0;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputColorSpace=THREE.SRGBColorSpace;
+R.shadowMap.enabled=!0;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputEncoding=THREE.sRGBEncoding;
 R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
 
 const S=new THREE.Scene();

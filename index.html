@@ -2,194 +2,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>InstaBuild — Wood Home Renovation</title>
+<title>InstaBuild — Build & Renovate</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a0f;--bg2:#111118;--card:#1c1c28;--border:rgba(255,255,255,0.07);--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--gold:#c49a6c;--green:#22c55e;--r-s:6px;--r-m:10px;--r-lg:14px;--r-full:9999px}
+:root{--bg:#0f0f17;--bg2:#181825;--card:#1e1e2e;--border:rgba(255,255,255,.06);--t:#f0f0f5;--t2:#9090a8;--t3:#5a5a72;--g:#c49a6c;--gn:#22c55e;--rd:#ef4444;--bl:#3b82f6;--rs:8px;--rm:12px;--rl:16px;--rf:9999px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;user-select:none}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border)}
-#loading{position:fixed;inset:0;z-index:99999;background:#0a0a0f;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s}
-#loading.hide{opacity:0;visibility:hidden;pointer-events:none}
-#loading .l-o{font:900 1.8rem 'Montserrat';color:var(--gold);margin-bottom:1.2rem}
-#loading .l-b{width:200px;height:4px;background:var(--border);border-radius:var(--r-full);overflow:hidden}
-#loading .l-f{height:100%;background:linear-gradient(90deg,var(--gold),#d4a84b);border-radius:var(--r-full);width:0;animation:lf 2s ease forwards}
-#loading .l-t{color:var(--text3);font-size:.7rem;margin-top:.8rem}@keyframes lf{0%{width:0}30%{width:30%}60%{width:68%}100%{width:100%}}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);overflow:hidden;user-select:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--rf)}
 
-#site{position:relative;z-index:1;height:100vh;overflow-y:auto;background:#fff;color:#1a1a1a;font-family:'Inter',sans-serif}#site.hidden{display:none}
-.site-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.08);padding:0 2rem}
-.site-nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
-.site-logo{font:700 .95rem 'Montserrat';color:#1a1a1a;text-decoration:none;display:flex;align-items:center;gap:.5rem}
-.site-logo span{background:#2d8a4e;color:#fff;width:28px;height:28px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800}
-.site-links{display:flex;gap:2rem;list-style:none;align-items:center}
-.site-links a{color:#666;font-weight:400;font-size:.78rem;text-decoration:none}.site-links a:hover{color:#1a1a1a}
-.sbtn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.2rem;border-radius:4px;font-weight:600;font-size:.75rem;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif}
-.sbtn-g{background:#2d8a4e;color:#fff}.sbtn-g:hover{background:#3cb868;transform:translateY(-1px)}
-.sh{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 3rem}
-.sh-bg{position:absolute;inset:0}.sh-bg img{width:100%;height:100%;object-fit:cover}
-.sh-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.7) 0%,rgba(0,0,0,.35) 60%,rgba(0,0,0,.15) 100%)}
-.sh-c{position:relative;z-index:2;max-width:1200px;width:100%}
-.sh-badge{display:inline-flex;align-items:center;gap:.4rem;color:#2d8a4e;font-size:.72rem;font-weight:600;margin-bottom:1.5rem}
-.sh-badge .dot{width:6px;height:6px;background:#2d8a4e;border-radius:50%;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sh h1{font:800 clamp(2.2rem,5vw,3.8rem)/1.08 'Montserrat';color:#fff;margin-bottom:1rem;max-width:650px}
-.sh h1 em{color:#2d8a4e;font-style:normal}
-.sh p{color:rgba(255,255,255,.55);font-size:1rem;max-width:480px;line-height:1.6;margin-bottom:2rem}
-.sh-btns{display:flex;gap:.8rem;flex-wrap:wrap}
-.sh-stats{display:flex;gap:2.5rem;margin-top:3rem;flex-wrap:wrap}
-.sh-num{font:800 2rem 'Montserrat';color:#fff}.sh-lab{color:rgba(255,255,255,.4);font-size:.7rem;text-transform:uppercase;letter-spacing:1px}
-.ss{padding:5rem 2rem}.ss-i{max-width:1200px;margin:0 auto}
-.ss-lbl{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:#2d8a4e;margin-bottom:1rem}
-.ss h2{font:700 clamp(1.5rem,3vw,2.2rem) 'Montserrat';margin-bottom:.5rem;color:#1a1a1a}.ss-sub{color:#666;max-width:500px;font-size:.85rem;line-height:1.6}
-.sg3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-top:2.5rem}
-.sg4{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;margin-top:2.5rem}
-.scard{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:1.8rem;transition:all .25s}.scard:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.06);border-color:#2d8a4e}
-.sci{width:44px;height:44px;background:rgba(45,138,78,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
-.scard h3{font-size:.9rem;margin-bottom:.3rem;color:#1a1a1a}.scard p{font-size:.75rem;color:#666;line-height:1.5}
-.spcard{overflow:hidden;padding:0}.spcard-img{height:160px;overflow:hidden}.spcard-img img{width:100%;height:100%;object-fit:cover}.spcard-info{padding:.8rem 1rem}.spcard-info h3{font-size:.8rem}.spcard-info p{font-size:.65rem;color:#666}
-.sfinp{padding:.7rem .9rem;background:#f8f7f5;border:1px solid rgba(0,0,0,.08);border-radius:8px;color:#1a1a1a;font-family:'Inter',sans-serif;font-size:.8rem;width:100%}.sfinp:focus{outline:none;border-color:#2d8a4e}
-.sfooter{background:#1a1a1a;color:rgba(255,255,255,.5);padding:3rem 2rem}.sfoot-bot{color:rgba(255,255,255,.3);font-size:.65rem;margin-top:.8rem;text-align:center}
+#load{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s}
+#load.hide{opacity:0;visibility:hidden}
+#load .lo{font:900 2rem 'Montserrat';color:var(--g);margin-bottom:1rem}
+#load .lb{width:200px;height:4px;background:var(--border);border-radius:var(--rf);overflow:hidden}
+#load .lf{height:100%;background:linear-gradient(90deg,var(--g),#d4a84b);border-radius:var(--rf);width:0;animation:lf 1.8s ease forwards}
+#load .lt{color:var(--t3);font-size:.7rem;margin-top:.8rem}@keyframes lf{0%{width:0}40%{width:55%}100%{width:100%}}
 
-#game{position:fixed;inset:0;z-index:10;background:var(--bg);display:none;flex-direction:column}
-#g-top{display:flex;align-items:center;gap:.5rem;padding:.3rem .6rem;background:var(--bg2);border-bottom:1px solid var(--border);min-height:30px}
-.g-stat{display:flex;align-items:center;gap:.15rem;padding:.08rem .35rem;background:var(--card);border-radius:var(--r-full);font-size:.6rem;font-weight:600}
-.g-btn{padding:.12rem .45rem;border-radius:var(--r-full);border:1px solid var(--border);background:transparent;color:var(--text2);font-size:.6rem;cursor:pointer;font-family:inherit;transition:all .15s}.g-btn:hover{border-color:var(--gold);color:var(--gold)}
+#app{display:flex;flex-direction:column;height:100vh}
+#top{display:flex;align-items:center;gap:.6rem;padding:.35rem .8rem;background:var(--bg2);border-bottom:1px solid var(--border);min-height:34px}
+.st{display:flex;align-items:center;gap:.15rem;padding:.1rem .4rem;background:var(--card);border-radius:var(--rf);font-size:.62rem;font-weight:600}
+.btn{padding:.15rem .5rem;border-radius:var(--rf);border:1px solid var(--border);background:transparent;color:var(--t2);font-size:.6rem;cursor:pointer;font-family:inherit;transition:all .15s}.btn:hover{border-color:var(--g);color:var(--g)}.btn.ac{background:var(--g);color:#0f0f17;border-color:var(--g)}.btn.ac:hover{box-shadow:0 4px 14px rgba(196,154,108,.3)}
 
-#g-body{flex:1;display:flex;overflow:hidden}
-#g-room{flex:1;position:relative;overflow:hidden;cursor:pointer}
-#g-canvas{display:block;position:absolute;top:0;left:0}
-#g-side{width:180px;min-width:150px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
-.g-pn{padding:.4rem .5rem;border-bottom:1px solid var(--border)}
-.g-pn h3{font-size:.62rem;color:var(--gold);margin-bottom:.2rem}
-.g-row{display:flex;justify-content:space-between;font-size:.58rem;padding:.08rem 0}.g-row s{color:var(--gold2)}
-.g-itm{padding:.15rem .35rem;border-radius:var(--r-s);border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:.55rem;cursor:pointer;font-family:inherit;transition:all .15s;text-align:left;display:block;width:100%;margin-bottom:.1rem}.g-itm:hover,.g-itm.sel{border-color:var(--gold);color:var(--gold)}.g-itm.sel{background:rgba(196,154,108,.08)}
+#main{flex:1;display:flex;overflow:hidden}
+#side{width:190px;min-width:160px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.pn{padding:.4rem .5rem;border-bottom:1px solid var(--border)}.pn h3{font-size:.62rem;color:var(--g);margin-bottom:.2rem}
+.row{display:flex;justify-content:space-between;font-size:.58rem;padding:.1rem 0}
+.itm{padding:.18rem .4rem;border-radius:var(--rs);border:1px solid var(--border);background:var(--card);color:var(--t2);font-size:.56rem;cursor:pointer;font-family:inherit;transition:all .15s;text-align:left;display:block;width:100%;margin-bottom:.1rem}.itm:hover,.itm.sel{border-color:var(--g);color:var(--g)}.itm.sel{background:rgba(196,154,108,.08)}
 
-#g-tools{display:flex;gap:.2rem;padding:.25rem .4rem;background:var(--bg2);border-top:1px solid var(--border);overflow-x:auto;align-items:center;justify-content:center}
-.g-tl{padding:.25rem .5rem;border-radius:var(--r-s);border:2px solid transparent;background:transparent;color:var(--text3);font-size:.58rem;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:1px}.g-tl:hover{border-color:var(--border);color:var(--text2)}.g-tl.sel{border-color:var(--gold);color:var(--gold);background:rgba(196,154,108,.08)}.g-tl .ti{font-size:1rem}
-#g-bar{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.85);padding:.3rem .7rem;border-radius:var(--r-full);border:1px solid var(--border)}
-#g-bar-s{width:160px;height:5px;background:var(--border);border-radius:var(--r-full);overflow:hidden}
-#g-bar-f{height:100%;background:var(--green);border-radius:var(--r-full);width:0;transition:width .3s}
-#g-bar-t{font-size:.55rem;color:var(--text2);white-space:nowrap}
+#room{flex:1;position:relative;overflow:hidden;cursor:pointer}#cv{display:block;position:absolute;top:0;left:0}
 
-#g-select{position:absolute;inset:0;z-index:30;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;overflow-y:auto}
-#g-select.hidden{display:none}
-.gs-title{font:900 1.5rem 'Montserrat';color:var(--gold)}
-.gs-sub{color:var(--text2);font-size:.75rem;text-align:center;max-width:500px}
-.gs-grid{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;max-width:900px}
-.gs-card{background:var(--card);border:2px solid var(--border);border-radius:var(--r-lg);padding:1.2rem;width:200px;cursor:pointer;transition:all .2s;text-align:center}.gs-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 8px 30px rgba(0,0,0,.4)}.gs-card.done{opacity:.4;pointer-events:none}
-.gs-card .gsi{font-size:2.5rem;margin-bottom:.4rem}
-.gs-card h3{font-size:.8rem;margin:.2rem 0}.gs-card p{font-size:.6rem;color:var(--text2)}
+#bar{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.85);padding:.3rem .7rem;border-radius:var(--rf);border:1px solid var(--border)}
+#bar-s{width:160px;height:5px;background:var(--border);border-radius:var(--rf);overflow:hidden}
+#bar-f{height:100%;background:var(--gn);border-radius:var(--rf);width:0;transition:width .3s}
+#bar-t{font-size:.55rem;color:var(--t2);white-space:nowrap}
+
+#tools{display:flex;gap:.25rem;padding:.3rem .5rem;background:var(--bg2);border-top:1px solid var(--border);justify-content:center;overflow-x:auto}
+.tl{padding:.25rem .55rem;border-radius:var(--rs);border:2px solid transparent;background:transparent;color:var(--t3);font-size:.6rem;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:2px}.tl:hover{border-color:var(--border);color:var(--t2)}.tl.sel{border-color:var(--g);color:var(--g);background:rgba(196,154,108,.08)}.tl .ti{font-size:1.1rem}
+
+#menu{position:absolute;inset:0;z-index:30;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;overflow-y:auto}
+#menu.hid{display:none}
+.m-title{font:900 1.6rem 'Montserrat';color:var(--g)}.m-sub{color:var(--t2);font-size:.75rem;text-align:center;max-width:500px}
+.m-grid{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;max-width:900px}
+.m-card{background:var(--card);border:2px solid var(--border);border-radius:var(--rl);padding:1.2rem;width:200px;cursor:pointer;transition:all .2s;text-align:center}.m-card:hover{transform:translateY(-4px);border-color:var(--g);box-shadow:0 8px 30px rgba(0,0,0,.4)}.m-card.dn{opacity:.35;pointer-events:none}
+.m-card .mi{font-size:2.5rem;margin-bottom:.3rem}.m-card h3{font-size:.82rem;margin:.2rem 0}.m-card p{font-size:.6rem;color:var(--t2)}
 
 #toasts{position:fixed;top:.4rem;right:.4rem;z-index:9999;display:flex;flex-direction:column;gap:.2rem;pointer-events:none}
-.toast{padding:.3rem .6rem;border-radius:var(--r-m);font-size:.6rem;background:rgba(0,0,0,.85);color:var(--text);animation:ti .3s ease;border-left:3px solid var(--green)}.toast.out{animation:to .3s ease forwards}
+.toast{padding:.3rem .6rem;border-radius:var(--rm);font-size:.6rem;background:rgba(0,0,0,.85);color:var(--t);animation:ti .3s ease;border-left:3px solid var(--gn)}.toast.out{animation:to .3s ease forwards}
 @keyframes ti{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes to{from{transform:translateX(100%);opacity:1}to{transform:translateX(0);opacity:0}}
+
+#cel{position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:0;transition:opacity .5s}#cel.show{opacity:1}
 </style>
 </head>
 <body>
-<div id="loading"><div class="l-o">🪵 InstaBuild Renovation</div><div class="l-b"><div class="l-f"></div></div><div class="l-t" id="l-t">Loading...</div></div>
+<div id="load"><div class="lo">🏗️ InstaBuild</div><div class="lb"><div class="lf"></div></div><div class="lt" id="lt">Loading...</div></div>
 
-<div id="site">
-<nav class="site-nav"><div class="site-nav-in"><a href="#" class="site-logo"><span>IB</span>InstaBuild</a><ul class="site-links"><li><a href="#solutions">Solutions</a></li><li><a href="#about">About</a></li><li><a href="#products">Products</a></li><li><a href="#contact">Contact</a></li><li><button class="sbtn sbtn-g" onclick="enterGame()">🎮 Simulator</button></li></ul></div></nav>
-<section class="sh"><div class="sh-bg"><img src="https://tse2.mm.bing.net/th/id/OIP.Q8yJf3NA78L4MwBulESFuAHaEK" alt="" onerror="this.style.display='none'"></div><div class="sh-ov"></div>
-<div class="sh-c"><div class="sh-badge"><span class="dot"></span>Wood Homes Since 2005</div><h1>Beautiful Wood Homes <em>Ready to Renovate</em></h1><p>Choose from our collection of premium wooden houses and renovate every room to perfection.</p>
-<div class="sh-btns"><button class="sbtn sbtn-g" onclick="enterGame()" style="font-size:.9rem;padding:.65rem 1.6rem">🎮 Start Renovating</button><a href="#solutions" class="sbtn-g" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3);text-decoration:none">Explore Homes</a></div>
-<div class="sh-stats"><div><div class="sh-num">12</div><div class="sh-lab">Wood Homes</div></div><div><div class="sh-num">48</div><div class="sh-lab">Rooms</div></div><div><div class="sh-num">18+</div><div class="sh-lab">Years</div></div><div><div class="sh-num">98%</div><div class="sh-lab">Quality</div></div></div></div></section>
-<section class="ss" id="solutions"><div class="ss-i"><span class="ss-lbl">Solutions</span><h2>Our Wood Homes</h2>
-<div class="sg3"><div class="scard"><div class="sci">🏠</div><h3>Cabin Retreat</h3><p>Cozy 2-room wooden cabin in the forest — warm pine interior ready for your touch.</p></div><div class="scard"><div class="sci">🏡</div><h3>Family Wood Home</h3><p>Spacious 3-room house with oak framing, large windows, and natural light throughout.</p></div><div class="scard"><div class="sci">🏘️</div><h3>Luxury Wood Villa</h3><p>4-room premium villa with cedar finishes, high ceilings, and panoramic views.</p></div></div></div></section>
-<section class="ss" id="about" style="background:#f8f7f5"><div class="ss-i"><span class="ss-lbl">About</span><h2>Wood Craftsmanship</h2>
-<div class="sg3"><div class="scard"><div class="sci">🎯</div><h3>Mission</h3><p>Every wooden home deserves a beautiful interior. We provide the tools to make it happen.</p></div><div class="scard"><div class="sci">🌱</div><h3>Sustainability</h3><p>All our wood is sustainably sourced. We plant 10 trees for every home renovated.</p></div><div class="scard"><div class="sci">🏗️</div><h3>Quality</h3><p>Only premium wood materials — oak, pine, cedar, walnut — selected for lasting beauty.</p></div></div></div></section>
-<section class="ss" id="products"><div class="ss-i"><span class="ss-lbl">Products</span><h2>Wood Materials</h2><div class="sg4" id="prodGrid"></div></div></section>
-<section class="ss" id="contact" style="background:#f8f7f5"><div class="ss-i"><div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem"><div><span class="ss-lbl">Contact</span><h2>Get In Touch</h2>
-<form onsubmit="event.preventDefault();this.reset();alert('Sent!')" style="display:flex;flex-direction:column;gap:.7rem;margin-top:1rem"><input class="sfinp" placeholder="Name" required><input class="sfinp" type="email" placeholder="Email" required><textarea class="sfinp" placeholder="Project details..." style="min-height:80px"></textarea><button class="sbtn sbtn-g">Send</button></form></div>
-<div style="padding-top:2.5rem"><div class="scard" style="margin-bottom:1rem"><h3>📍 North America</h3><p style="margin-top:.3rem">3500 S Dupont Hwy, Dover, DE 19901</p><p style="margin-top:.5rem">📧 info@instabuild.com | 📞 +1 (503) 555-0147</p></div>
-<div class="scard"><h3>📍 Europe</h3><p style="margin-top:.3rem">Timber Road 12, London, UK</p><p style="margin-top:.5rem">📧 eu@instabuild.com | 📞 +44 20 7123 4567</p></div></div></div></div></section>
-<footer class="sfooter"><div class="ss-i" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem"><div><h3 style="color:#fff;font-size:.9rem;margin-bottom:.8rem">InstaBuild</h3><p style="color:rgba(255,255,255,.5);font-size:.75rem">Wood homes since 2005.</p></div><div><h4 style="color:#fff;font-size:.7rem;margin-bottom:.8rem">Homes</h4><ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem"><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Cabin</a></li><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Family</a></li><li><a href="#solutions" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Villa</a></li></ul></div><div><h4 style="color:#fff;font-size:.7rem;margin-bottom:.8rem">Company</h4><ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem"><li><a href="#about" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">About</a></li><li><a href="#products" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Products</a></li><li><a href="#contact" style="color:rgba(255,255,255,.5);font-size:.72rem;text-decoration:none">Contact</a></li></ul></div><div><h4 style="color:#fff;font-size:.7rem;margin-bottom:.8rem">Locations</h4><p style="color:rgba(255,255,255,.5);font-size:.7rem">NA: Dover, DE<br>EU: London, UK</p></div></div><div class="sfoot-bot">&copy; 2026 InstaBuild.</div></footer>
-</div>
-
-<div id="game">
-<div id="g-top">
-<span style="font-weight:700;font-size:.65rem">🪵 <span id="g-tit">Wood Home Renovation</span></span>
+<div id="app">
+<div id="top">
+<span style="font-weight:700;font-size:.68rem">🏗️ <span id="ttl">InstaBuild</span></span>
 <div style="flex:1"></div>
-<span class="g-stat"><span>⭐</span><span id="g-stars">0</span></span>
-<span class="g-stat" style="color:var(--gold)">✨Lv<span id="g-lv">1</span></span>
-<button class="g-btn" onclick="openMap()">🏠 Map</button>
-<button class="g-btn" onclick="showSelect()">🪵 Homes</button>
-<button class="g-btn" onclick="leaveGame()">✕</button>
+<span class="st"><span>⭐</span><span id="st">0</span></span>
+<span class="st" style="color:var(--g)">✨<span id="lv">1</span></span>
+<button class="btn" onclick="openMenu()">🏠</button>
+<button class="btn" id="mbtn" onclick="toggleMode()">🔨 Build</button>
 </div>
-<div id="g-body">
-<div id="g-side">
-<div class="g-pn"><h3>🪵 Wood Home</h3><div id="m-info" style="font-size:.55rem;color:var(--text3)">Choose a home</div></div>
-<div class="g-pn"><h3>🎯 Room Tasks</h3><div id="m-tasks"></div></div>
-<div class="g-pn"><h3>🛋️ Furniture</h3><div id="m-furn"></div></div>
-<div class="g-pn"><h3>🪵 Wood Type</h3><div id="m-woods"></div></div>
+<div id="main">
+<div id="side">
+<div class="pn"><h3>📋 Project</h3><div id="info" style="font-size:.55rem;color:var(--t3)">Select a project</div></div>
+<div class="pn"><h3>🎯 Tasks</h3><div id="tasks"></div></div>
+<div class="pn"><h3>🪵 Wood</h3><div id="woods"></div></div>
+<div class="pn"><h3>🛋️ Furniture</h3><div id="furns"></div></div>
 </div>
-<div id="g-room"><canvas id="g-canvas"></canvas>
-<div id="g-bar"><span id="g-bar-t">Select a wood home</span><div id="g-bar-s"><div id="g-bar-f"></div></div></div>
-<div id="g-select"><div class="gs-title">🪵 Choose a Wood Home</div><div class="gs-sub">Select a beautiful wooden house to renovate from the inside</div><div class="gs-grid" id="gs-list"></div><button class="g-btn" onclick="document.getElementById('g-select').classList.add('hidden')" style="margin-top:.5rem">Close</button></div>
+<div id="room"><canvas id="cv"></canvas>
+<div id="bar"><span id="bar-t">Choose a project</span><div id="bar-s"><div id="bar-f"></div></div></div>
+<div id="menu"><div class="m-title" id="mtitle">🏗️ Choose Project</div><div class="m-sub" id="msub">Build from scratch or renovate an existing home</div><div class="m-grid" id="mlist"></div><button class="btn" onclick="document.getElementById('menu').classList.add('hid')" style="margin-top:.5rem">Close</button></div>
 </div>
 </div>
-<div id="g-tools"></div>
+<div id="tools"></div>
 </div>
+<canvas id="cel"></canvas>
 <div id="toasts"></div>
 
 <script>
-const CV=document.getElementById('g-canvas'),C=CV.getContext('2d'),RM=document.getElementById('g-room');
-let W,H,anim,tick=0,tool='sweep';
+const CV=document.getElementById('cv'),C=CV.getContext('2d'),RM=document.getElementById('room');
+let W,H,mode='build',tool='hammer',anim,tick=0;
 
-let GS={stars:0,xp:0,level:1,house:null,room:0,task:0,completed:[],build:{},furn:{},selFurn:null,selWood:'oak',construction:{foundation:!1,walls:!1,windows:!1,doors:!1,roof:!1}};
+let GS={stars:0,xp:0,level:1,house:null,room:0,task:0,done:[],bld:{},furn:{},selFurn:null,wood:'oak',struct:{foundation:0,walls:0,windows:0,door:0,roof:0,floor:0,paint:0,decor:0}};
 
 const WOODS=[{id:'oak',n:'Golden Oak',h:'#b8956a'},{id:'pine',n:'Natural Pine',h:'#d4b896'},{id:'walnut',n:'Dark Walnut',h:'#5c3a1e'},{id:'cedar',n:'Red Cedar',h:'#8b5a3c'}];
+const FURN=[{c:'living',n:'Sofa',i:'🛋️',w:80,h:28},{c:'living',n:'Table',i:'☕',w:38,h:16},{c:'living',n:'Bookshelf',i:'📚',w:22,h:46},{c:'living',n:'Lamp',i:'💡',w:10,h:36},{c:'living',n:'Rug',i:'🟫',w:68,h:8},{c:'bedroom',n:'Bed',i:'🛏️',w:68,h:32},{c:'bedroom',n:'Wardrobe',i:'🚪',w:32,h:48},{c:'bedroom',n:'Desk',i:'📝',w:38,h:20},{c:'kitchen',n:'Counter',i:'🍳',w:48,h:20},{c:'kitchen',n:'Fridge',i:'🧊',w:20,h:34},{c:'kitchen',n:'Table',i:'🍽️',w:38,h:20},{c:'bath',n:'Tub',i:'🛁',w:38,h:20},{c:'bath',n:'Sink',i:'🚰',w:14,h:16},{c:'bath',n:'Toilet',i:'🚽',w:12,h:18}];
 
-const HOMES=[
-{id:'cabin',n:'Pine Cabin',i:'🪵🏠',rooms:[{n:'Living Room',cat:'living',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:5},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:4},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]},{n:'Kitchen',cat:'kitchen',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:4},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:3},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:2},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]}]},
-{id:'family',n:'Oak Family Home',i:'🏡🪵',rooms:[{n:'Living Room',cat:'living',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:7},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:5},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:4},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:3},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:3},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]},{n:'Kitchen',cat:'kitchen',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:5},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:4},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]},{n:'Bedroom',cat:'bedroom',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:4},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:3},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]}]},
-{id:'villa',n:'Cedar Wood Villa',i:'🏰🪵',rooms:[{n:'Living Room',cat:'living',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:9},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:7},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:5},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:4},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:4},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:4}]},{n:'Kitchen',cat:'kitchen',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:6},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:5},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:4},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:3},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:3},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]},{n:'Bedroom',cat:'bedroom',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:5},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:4},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]},{n:'Bathroom',cat:'bath',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:4},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:3},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]}]}];
+function tm(m){const c=document.getElementById('toasts'),d=document.createElement('div');d.className='toast';d.textContent=m;c.appendChild(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),300)},2000)}
+function rs(){W=RM.clientWidth;H=RM.clientHeight;CV.width=W;CV.height=H;if(GS.house!=null)draw()}
+window.addEventListener('resize',rs);
 
-const FURN=[{c:'living',n:'Wood Sofa',i:'🛋️',w:80,h:30,cl:'#6a5a4a'},{c:'living',n:'Oak Table',i:'☕',w:40,h:18,cl:'#b8956a'},{c:'living',n:'TV Unit',i:'📺',w:50,h:22,cl:'#5c3a1e'},{c:'living',n:'Chair',i:'💺',w:28,h:24,cl:'#7a6050'},{c:'living',n:'Bookshelf',i:'📚',w:22,h:48,cl:'#8B6914'},{c:'living',n:'Rug',i:'🟫',w:70,h:8,cl:'#c4956a'},{c:'living',n:'Lamp',i:'💡',w:10,h:38,cl:'#888'},{c:'living',n:'Plant',i:'🪴',w:14,h:20,cl:'#228B22'},{c:'bedroom',n:'Wood Bed',i:'🛏️',w:70,h:35,cl:'#b8956a'},{c:'bedroom',n:'Nightstand',i:'🪑',w:16,h:18,cl:'#7a5a3a'},{c:'bedroom',n:'Wardrobe',i:'🚪',w:34,h:50,cl:'#8B6914'},{c:'bedroom',n:'Desk',i:'📝',w:40,h:22,cl:'#7a5a3a'},{c:'kitchen',n:'Counter',i:'🍳',w:50,h:22,cl:'#888'},{c:'kitchen',n:'Fridge',i:'🧊',w:22,h:36,cl:'#ccc'},{c:'kitchen',n:'Table',i:'🍽️',w:40,h:22,cl:'#b8956a'},{c:'kitchen',n:'Stove',i:'🔥',w:22,h:24,cl:'#444'},{c:'bath',n:'Bathtub',i:'🛁',w:40,h:22,cl:'#eee'},{c:'bath',n:'Sink',i:'🚰',w:16,h:18,cl:'#eee'},{c:'bath',n:'Toilet',i:'🚽',w:14,h:20,cl:'#eee'}];
+function gk(){return GS.house+'_'+GS.room+'_'+GS.task}
+function gd(){return GS.bld[gk()]||0}
+function gR(){if(GS.house==null)return null;const h=getH();if(GS.room>=h.rooms.length)return null;const r=h.rooms[GS.room];if(GS.task>=r.tk.length)return null;return r.tk[GS.task]}
+function getH(){return (mode==='build'?BUILD:SELL)[GS.house]}
+function getTool(t){const m={sweep:'sweep',mop:'mop',wipe:'wipe',repair:'repair',paint:'paint',decor:'decor',hammer:'hammer'};return m[t]||'hammer'}
 
-const TOOLS=[{id:'sweep',ic:'🧹',n:'Sweep'},{id:'mop',ic:'🧼',n:'Mop'},{id:'wipe',ic:'🧽',n:'Wipe'},{id:'repair',ic:'🔨',n:'Repair'},{id:'paint',ic:'🖌️',n:'Paint'},{id:'decor',ic:'🛋️',n:'Furnish'}];
+const BUILD=[
+{id:'cabin',n:'Pine Cabin',i:'🏠',rooms:[{n:'Interior',cat:'living',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]}]},
+{id:'house',n:'Family Home',i:'🏡',rooms:[{n:'Living',cat:'living',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:4}]},{n:'Bedroom',cat:'bedroom',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]}]},
+{id:'villa',n:'Wood Villa',i:'🏰',rooms:[{n:'Living',cat:'living',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:5}]},{n:'Kitchen',cat:'kitchen',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]},{n:'Bedroom',cat:'bedroom',tk:[{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]}]}];
 
-function toast(m){const c=document.getElementById('toasts'),d=document.createElement('div');d.className='toast';d.textContent=m;c.appendChild(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),300)},2000)}
-function resize(){W=RM.clientWidth;H=RM.clientHeight;CV.width=W;CV.height=H;if(GS.house!=null)draw()}
-window.addEventListener('resize',resize);
-function gT(){if(GS.house==null)return null;const h=HOMES[GS.house];if(GS.room>=h.rooms.length)return null;const r=h.rooms[GS.room];if(GS.task>=r.tk.length)return null;return r.tk[GS.task]}
-function key(){return GS.house+'_'+GS.room+'_'+GS.task}
-function dn(){return GS.build[key()]||0}
+const SELL=[{id:'shack',n:'Abandoned Shack',i:'🏚️',rooms:[{n:'Living',cat:'living',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:6},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:4},{t:'wipe',n:'Wipe Walls',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix Cracks',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]}]},
+{id:'house',n:'Old Family Home',i:'🏠',rooms:[{n:'Living',cat:'living',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:8},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:5},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:4},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:3},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:3},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:3}]},{n:'Kitchen',cat:'kitchen',tk:[{t:'sweep',n:'Sweep',ic:'🧹',it:'trash',nd:4},{t:'mop',n:'Mop',ic:'🧼',it:'dirt',nd:3},{t:'wipe',n:'Wipe',ic:'🧽',it:'stain',nd:3},{t:'repair',n:'Fix',ic:'🔨',it:'crack',nd:2},{t:'paint',n:'Paint',ic:'🖌️',it:'paint',nd:2},{t:'decor',n:'Furnish',ic:'🛋️',it:'furn',nd:2}]}]}];
 
 RM.addEventListener('click',e=>{
   if(GS.house==null)return;
   const r=CV.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
-  const t=gT();if(!t)return;
-  if(t.it==='furn'&&GS.selFurn==null){toast('Select furniture first!');return}
-  const k=key();
-  if(t.it==='furn'){const f=FURN[GS.selFurn];GS.furn[GS.house+'_'+GS.room+'_'+(GS.build[k]||0)]={fi:GS.selFurn,x:mx-f.w/2,y:my-f.h/2};GS.build[k]=(GS.build[k]||0)+1;if(GS.build[k]>=t.nd)nxt()}
-  else{GS.build[k]=(GS.build[k]||0)+1;if(GS.build[k]>=t.nd)nxt()}
-  draw();updateUI();
+  if(mode==='build'){
+    const t=gR();if(!t||t.it!=='furn'){GS.struct[getNextBuild()]=(GS.struct[getNextBuild()]||0)+1;draw();updateUI();const nb=getNextBuild();if(GS.struct[nb]===getBuildGoal(nb)){GS.struct[nb]=getBuildGoal(nb);draw();updateUI();tm('✅ '+getBuildLabel(nb)+' complete!')}return}
+    if(GS.selFurn==null){tm('Select furniture first!');return}
+    const f=FURN[GS.selFurn];GS.furn[GS.house+'_f_'+(GS.bld[gk()]||0)]={fi:GS.selFurn,x:mx-f.w/2,y:my-f.h/2};GS.bld[gk()]=(GS.bld[gk()]||0)+1;if(GS.bld[gk()]>=t.nd)nxt();draw();updateUI();return
+  }
+  const t=gR();if(!t)return;
+  if(t.it==='furn'&&GS.selFurn==null){tm('Select furniture');return}
+  GS.bld[gk()]=(GS.bld[gk()]||0)+1;if(t.it==='furn'){const f=FURN[GS.selFurn];GS.furn[GS.house+'_f_'+(GS.bld[gk()]||0)]={fi:GS.selFurn,x:mx-f.w/2,y:my-f.h/2}}
+  if(GS.bld[gk()]>=t.nd)nxt();draw();updateUI();
 });
 
-function nxt(){GS.task++;const h=HOMES[GS.house];if(GS.task>=h.rooms[Math.min(GS.room,h.rooms.length-1)].tk.length){GS.room++;GS.task=0;if(GS.room>=h.rooms.length){comp();return}}const t=gT();if(t){tool=t.t;GS.selFurn=null}updateUI();draw();if(t)toast(t.ic+' '+t.n)}
-
-function comp(){const h=HOMES[GS.house];GS.stars+=1;GS.xp+=h.rooms.length*20;GS.completed.push(GS.house);GS.level=Math.floor(GS.xp/200)+1;GS.house=null;GS.room=0;GS.task=0;GS.build={};GS.furn={};GS.selFurn=null;updateUI();draw();saveG();toast('🏆 '+h.n+' fully renovated! ⭐+1')}
+function nxt(){GS.task++;const h=getH();if(GS.task>=h.rooms[Math.min(GS.room,h.rooms.length-1)].tk.length){GS.room++;GS.task=0;if(GS.room>=h.rooms.length){comp();return}}const t=gR();if(t){tool=getTool(t.t);GS.selFurn=null}updateUI();draw();if(t)tm(t.ic+' '+t.n)}
+function comp(){const h=getH();GS.stars+=1;GS.xp+=h.rooms.length*15;GS.done.push(mode+'_'+GS.house);GS.level=Math.floor(GS.xp/200)+1;GS.house=null;GS.room=0;GS.task=0;GS.bld={};GS.furn={};GS.selFurn=null;GS.struct={foundation:0,walls:0,windows:0,door:0,roof:0,floor:0,paint:0,decor:0};updateUI();draw();saveG();celebrate();tm('🏆 '+h.n+' complete! ⭐+1')}
 
 function draw(){
   C.clearRect(0,0,W,H);
-  const bw=W*.48,bh=H*.45,bx=W*.26,by=H*.08,fy=H*.58;
+  const bw=W*.5,bh=H*.42,bx=W*.25,by=H*.1,fy=H*.6,wood=WOODS.find(w=>w.id===GS.wood)||WOODS[0];
+  // Ground
+  C.fillStyle='#3a6a2a';C.fillRect(0,0,W,H);
+  const px=bx-40,py=by-40,pw=bw+80,ph=bh+80;
+  C.fillStyle='#4a7a2a';C.fillRect(px,py,pw,ph);
+
+  if(GS.house==null||mode==='build'){
+    if(mode==='build'&&GS.house==null){drawSelectPrompt();return}
+    // BUILD MODE - show construction progress
+    C.fillStyle='#5a4a2a';C.fillRect(bx-15,by-15,bw+30,bh+30);
+    // Foundation
+    if(GS.struct.foundation>0){C.fillStyle='#999';const fh=Math.min(GS.struct.foundation,5)/5*bh*.08;C.fillRect(bx-5,by+bh-fh,bw+10,fh)}
+    // Walls
+    if(GS.struct.walls>0){C.fillStyle=wood.h;const wh=Math.min(GS.struct.walls,8)/8;C.fillRect(bx,by,bw*wh,bh)}
+    // Windows
+    if(GS.struct.windows>0){C.fillStyle='#c8ddf0';for(let i=0;i<Math.min(GS.struct.windows,4);i++){C.fillRect(bx+20+i*bw*.22,by+bh*.15,bw*.12,bh*.22);C.strokeStyle=wood.h;C.lineWidth=2;C.strokeRect(bx+20+i*bw*.22,by+bh*.15,bw*.12,bh*.22)}}
+    // Door
+    if(GS.struct.door>0){C.fillStyle=wood.h;C.fillRect(bx+bw*.4,by+bh*.4,bw*.12,bh*.35);C.strokeStyle='#5a3a1a';C.lineWidth=2;C.strokeRect(bx+bw*.4,by+bh*.4,bw*.12,bh*.35)}
+    // Roof
+    if(GS.struct.roof>0){C.fillStyle='#6B3513';const rh=Math.min(GS.struct.roof,6)/6*40;C.beginPath();C.moveTo(bx-10,by);C.lineTo(bx+bw/2,by-rh);C.lineTo(bx+bw+10,by);C.closePath();C.fill()}
+    // Floor
+    if(GS.struct.floor>0){C.fillStyle=wood.h;const fp=Math.min(GS.struct.floor,5)/5;C.fillRect(bx+5,by+bh*.82,bw-10,bh*.08*fp)}
+    // Decor
+    if(GS.struct.decor>0){const items=['🪴','💡'];for(let i=0;i<Math.min(GS.struct.decor,8);i++){C.font='16px serif';C.fillText(items[i%2],bx+30+i*bw*.1,by+bh*.6)}}
+
+    const nb=getNextBuild(),goal=getBuildGoal(nb),cur=GS.struct[nb]||0;
+    document.getElementById('bar-f').style.width=(goal>0?Math.min(100,Math.round(cur/goal*100)):0)+'%';
+    document.getElementById('bar-t').textContent=mode==='build'&&GS.house!=null?getBuildLabel(nb)+' ('+cur+'/'+goal+') — Click!':'Select a project';
+
+    // Draw placed furniture
+    Object.values(GS.furn).forEach(f=>{const fd=FURN[f.fi];C.fillStyle='#6a5a4aaa';C.fillRect(f.x,f.y,fd.w,fd.h);C.font='12px serif';C.fillText(fd.i,f.x+fd.w/2-6,f.y+fd.h/2+4)});
+
+    C.fillStyle='#fff';C.font='bold 14px Inter';C.textAlign='center';
+    if(GS.house!=null)C.fillText('🔨 Build: '+getBuildLabel(nb)+' — Click on the house!',W/2,by-15);
+    return;
+  }
+
+  // RENOVATION MODE - 3D room view
   C.fillStyle='#f0ebe4';C.beginPath();C.moveTo(0,0);C.lineTo(W,0);C.lineTo(W*.6,fy);C.lineTo(W*.4,fy);C.closePath();C.fill();
   C.fillStyle='#fff';C.beginPath();C.arc(W/2,fy*.32,fy*.1,0,Math.PI*2);C.fill();
   C.fillStyle='#e4ddd5';C.beginPath();C.moveTo(0,0);C.lineTo(W*.4,fy);C.lineTo(bx,by+bh);C.lineTo(bx,H);C.lineTo(0,H);C.closePath();C.fill();
   C.fillStyle='#dbd4cc';C.beginPath();C.moveTo(W,0);C.lineTo(W*.6,fy);C.lineTo(bx+bw,by+bh);C.lineTo(bx+bw,H);C.lineTo(W,H);C.closePath();C.fill();
   C.fillStyle='#b89878';C.beginPath();C.moveTo(0,H);C.lineTo(W,H);C.lineTo(bx+bw,H);C.lineTo(bx,by+bh);C.lineTo(bx,H);C.closePath();C.fill();
-
-  const wood=WOODS.find(w=>w.id===GS.selWood)||WOODS[0];
-  if(GS.house!=null){const t=gT();if(t&&t.it==='paint'){C.fillStyle=wood.h+'99';C.fillRect(bx,by,bw*Math.min(1,dn()/t.nd),bh)}else{C.fillStyle=wood.h;C.fillRect(bx,by,bw,bh)}}
-
+  C.fillStyle=wood.h;C.fillRect(bx,by,bw,bh);
   C.strokeStyle='rgba(0,0,0,.1)';C.lineWidth=2;C.beginPath();C.moveTo(bx,by+bh);C.lineTo(bx+bw,by+bh);C.stroke();
   C.fillStyle='#e8ddd0';C.fillRect(bx,by+bh*.86,bw,bh*.05);
-
-  if(GS.construction){
-    if(GS.construction.foundation){C.fillStyle='#777';C.fillRect(bx,by+bh-20,bw,20)}
-    if(GS.construction.roof){C.fillStyle='#704214';C.beginPath();C.moveTo(bx-20,by);C.lineTo(bx+bw/2,by-80);C.lineTo(bx+bw+20,by);C.closePath();C.fill()}
-  }
-
+  // Windows
   const w1=bx+bw*.15,wy1=by+bh*.12,ww=bw*.22,wh=bh*.36;
   C.fillStyle='#c8ddf0';C.fillRect(w1,wy1,ww,wh);C.strokeStyle='#a08060';C.lineWidth=2;C.strokeRect(w1,wy1,ww,wh);
   C.fillStyle='rgba(180,160,140,.4)';C.fillRect(w1-2,wy1-3,ww*.28,wh+6);C.fillRect(w1+ww*.74,wy1-3,ww*.28,wh+6);
@@ -198,69 +182,77 @@ function draw(){
   C.fillStyle='#8B6914';C.fillRect(bx+bw*.88,by+bh*.35,bw*.1,bh*.4);C.strokeStyle='#5a3a1a';C.lineWidth=2;C.strokeRect(bx+bw*.88,by+bh*.35,bw*.1,bh*.4);
   C.fillStyle='rgba(255,255,255,.4)';C.beginPath();C.arc(bx+bw*.88+bw*.1*.75,by+bh*.35+bh*.4*.5,2.5,0,Math.PI*2);C.fill();
 
-  if(GS.house==null){C.fillStyle='#666';C.font='15px Inter';C.textAlign='center';C.fillText('🪵 Click Homes to select a wood house',W/2,H/2);return}
-
-  const h=HOMES[GS.house],r=h.rooms[GS.room],t=gT(),d=t?dn():0,nd=t?t.nd:1,pct=t?Math.min(100,Math.round(d/nd*100)):0;
-  document.getElementById('g-bar-f').style.width=pct+'%';
-  document.getElementById('g-bar-t').textContent=r.n+' — '+(t?t.ic+' '+t.n+' ('+d+'/'+nd+')':'Done!');
-
+  if(GS.house==null){drawSelectPrompt();return}
+  const h=getH(),r=h.rooms[GS.room],t=gR(),d=t?gd():0,nd=t?t.nd:1,pct=t?Math.min(100,Math.round(d/nd*100)):0;
+  document.getElementById('bar-f').style.width=pct+'%';
+  document.getElementById('bar-t').textContent=r.n+' — '+(t?t.ic+' '+t.n+' ('+d+'/'+nd+')':'Done!');
   if(t){
     if(t.it==='trash'){for(let i=0;i<nd;i++){if(i>=d){C.fillStyle='#8B7355';C.fillRect(bx+bw*.08+Math.random()*bw*.75,by+bh*.25+Math.random()*bh*.55,8,6)}}}
     if(t.it==='dirt'){C.fillStyle='rgba(50,30,15,.2)';for(let i=0;i<nd;i++){if(i>=d){C.beginPath();C.arc(bx+bw*.12+(i*bw*.6/nd),by+bh*.5,6+Math.random()*8,0,Math.PI*2);C.fill()}}}
     if(t.it==='stain'){C.fillStyle='rgba(40,20,10,.16)';for(let i=0;i<nd;i++){if(i>=d){C.beginPath();C.ellipse(bx+bw*.14+(i*bw*.5/nd),by+bh*.12+Math.random()*bh*.5,7+Math.random()*10,4+Math.random()*5,0,0,Math.PI*2);C.fill()}}}
     if(t.it==='crack'){C.strokeStyle='rgba(15,5,0,.5)';C.lineWidth=1.5;for(let i=0;i<nd;i++){if(i>=d){C.beginPath();C.moveTo(bx+bw*.15+(i*bw*.5/nd),by+bh*.12+Math.random()*bh*.5);C.lineTo(bx+bw*.2+(i*bw*.5/nd),by+bh*.2+Math.random()*bh*.4);C.stroke()}}}
-    if(t.it==='furn'){Object.values(GS.furn).forEach(f=>{const fd=FURN[f.fi];C.fillStyle=fd.cl+'aa';C.fillRect(f.x,f.y,fd.w,fd.h);C.strokeStyle='rgba(0,0,0,.15)';C.lineWidth=1;C.strokeRect(f.x,f.y,fd.w,fd.h);C.fillStyle='#fff';C.font='9px Inter';C.textAlign='center';C.fillText(fd.i,f.x+fd.w/2,f.y+fd.h/2+3)})}
+    if(t.it==='paint'){C.fillStyle=wood.h+'99';C.fillRect(bx,by,bw*(d/nd),bh)}
+    if(t.it==='furn'){Object.values(GS.furn).forEach(f=>{const fd=FURN[f.fi];C.fillStyle='#6a5a4aaa';C.fillRect(f.x,f.y,fd.w,fd.h);C.font='12px serif';C.fillText(fd.i,f.x+fd.w/2-6,f.y+fd.h/2+4)})}
   }
+  C.fillStyle='#fff';C.font='bold 14px Inter';C.textAlign='center';
+  C.fillText(r.n+' — Click!',W/2,by-10);
 }
+
+function drawSelectPrompt(){C.fillStyle='#888';C.font='15px Inter';C.textAlign='center';C.fillText('🏗️ Open the menu to choose a project',W/2,H/2)}
+
+function getNextBuild(){const o=['foundation','walls','windows','door','roof','floor','paint','decor'];for(let s of o){if((GS.struct[s]||0)<getBuildGoal(s))return s}return'decor'}
+function getBuildGoal(s){return{f:5,w:8,i:4,d:1,r:6,l:5,p:3,e:8}[s[0]]||1}
+function getBuildLabel(s){return{f:'Foundation',w:'Walls',i:'Windows',d:'Door',r:'Roof',l:'Floor',p:'Paint',e:'Decor'}[s[0]]||'Build'}
 
 function updateUI(){
-  document.getElementById('g-stars').textContent=GS.stars;document.getElementById('g-lv').textContent=GS.level;
-  document.getElementById('g-tit').textContent=GS.house!=null?HOMES[GS.house].n:'Wood Home Renovation';
-  if(GS.house!=null){const h=HOMES[GS.house],r=h.rooms[GS.room];document.getElementById('m-info').innerHTML='<strong>'+h.i+' '+h.n+'</strong><br>Room '+(GS.room+1)+'/'+h.rooms.length+'<br>'+r.n}
-  else{document.getElementById('m-info').textContent='Choose a wood home'}
+  document.getElementById('st').textContent=GS.stars;document.getElementById('lv').textContent=GS.level;
+  document.getElementById('ttl').textContent=GS.house!=null?getH().n||'Working':'InstaBuild';
+  document.getElementById('mbtn').textContent=mode==='build'?'🔨 Build':'🧹 Renovate';
+  document.getElementById('mtitle').textContent=mode==='build'?'🔨 Build New Home':'🧹 Renovate Home';
+  document.getElementById('msub').textContent=mode==='build'?'Construct a beautiful wood house from foundation to finish':'Fix up an old house room by room';
 
-  document.getElementById('gs-list').innerHTML=HOMES.map((h,i)=>'<div class="gs-card'+(GS.completed.includes(i)?' done':'')+'" onclick="pickHouse('+i+')"><div class="gsi">'+h.i+'</div><h3>'+h.n+'</h3><p>'+h.rooms.length+' rooms</p>'+(GS.completed.includes(i)?'<p style="color:var(--green)">✅ Done</p>':'')+'</div>').join('');
+  if(GS.house!=null){const h=getH(),r=h.rooms[GS.room];document.getElementById('info').innerHTML='<strong>'+h.n+'</strong><br>Room '+(GS.room+1)+'/'+h.rooms.length+'<br>'+r.n}
+  else{document.getElementById('info').textContent='Select a project'}
 
-  if(GS.house!=null){const h=HOMES[GS.house];document.getElementById('m-tasks').innerHTML=h.rooms.map((rm,ri)=>'<div style="margin-bottom:.25rem"><strong style="font-size:.55rem;color:var(--gold)">'+rm.n+'</strong>'+rm.tk.map((t,ti)=>'<div class="g-row" style="color:'+(ri<GS.room||(ri===GS.room&&ti<GS.task)?'var(--green)':ri===GS.room&&ti===GS.task?'var(--gold)':'var(--text3)')+'"><span>'+(ri<GS.room||(ri===GS.room&&ti<GS.task)?'✓':'○')+' '+t.ic+' '+t.n+'</span></div>').join('')+'</div>').join('')}
-  else{document.getElementById('m-tasks').innerHTML='<span style="color:var(--text3)">—</span>'}
+  document.getElementById('mlist').innerHTML=(mode==='build'?BUILD:SELL).map((h,i)=>'<div class="m-card'+(GS.done.includes(mode+'_'+i)?' dn':'')+'" onclick="pick('+i+')"><div class="mi">'+h.i+'</div><h3>'+h.n+'</h3><p>'+h.rooms.length+' room'+(h.rooms.length>1?'s':'')+'</p>'+(GS.done.includes(mode+'_'+i)?'<p style="color:var(--gn)">✅ Done</p>':'')+'</div>').join('');
 
-  if(GS.house!=null){const r=HOMES[GS.house].rooms[GS.room],cat=r.cat||'living';document.getElementById('m-furn').innerHTML=FURN.filter(f=>f.c===cat).map((f,i)=>{const gi=FURN.indexOf(f);return'<div class="g-itm'+(GS.selFurn===gi?' sel':'')+'" onclick="GS.selFurn='+gi+';tool=\'decor\';updateUI()">'+f.i+' '+f.n+'</div>'}).join('')}
-  else{document.getElementById('m-furn').innerHTML='<span style="color:var(--text3)">—</span>'}
+  if(GS.house!=null){const h=getH();document.getElementById('tasks').innerHTML=h.rooms.map((rm,ri)=>'<div style="margin-bottom:.25rem"><strong style="font-size:.55rem;color:var(--g)">'+rm.n+'</strong>'+rm.tk.map((t,ti)=>'<div class="row" style="color:'+(ri<GS.room||(ri===GS.room&&ti<GS.task)?'var(--gn)':ri===GS.room&&ti===GS.task?'var(--g)':'var(--t3)')+'"><span>'+(ri<GS.room||(ri===GS.room&&ti<GS.task)?'✓':'○')+' '+t.ic+' '+t.n+'</span></div>').join('')+'</div>').join('')}
+  else{document.getElementById('tasks').innerHTML='<span style="color:var(--t3)">—</span>'}
 
-  document.getElementById('m-woods').innerHTML=WOODS.map(w=>'<div class="g-itm'+(GS.selWood===w.id?' sel':'')+'" onclick="GS.selWood=\''+w.id+'\';updateUI();draw()"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+w.h+';margin-right:4px;vertical-align:middle"></span>'+w.n+'</div>').join('');
+  if(GS.house!=null){const h=getH(),r=h.rooms[Math.min(GS.room,h.rooms.length-1)],cat=r.cat||'living';document.getElementById('furns').innerHTML=FURN.filter(f=>f.c===cat).map((f,i)=>{const gi=FURN.indexOf(f);return'<div class="itm'+(GS.selFurn===gi?' sel':'')+'" onclick="GS.selFurn='+gi+';tool=\'decor\';updateUI()">'+f.i+' '+f.n+'</div>'}).join('')}
+  else{document.getElementById('furns').innerHTML='<span style="color:var(--t3)">—</span>'}
 
-  document.getElementById('g-tools').innerHTML=TOOLS.map(t=>'<button class="g-tl'+(tool===t.id?' sel':'')+'" onclick="tool=\''+t.id+'\';if(t.id!==\'decor\')GS.selFurn=null;updateUI()"><span class="ti">'+t.ic+'</span>'+t.n+'</button>').join('');
+  document.getElementById('woods').innerHTML=WOODS.map(w=>'<div class="itm'+(GS.wood===w.id?' sel':'')+'" onclick="GS.wood=\''+w.id+'\';updateUI();draw()">🟫 '+w.n+'</div>').join('');
+
+  const tl=mode==='build'?[{id:'hammer',ic:'🔨',n:'Build'},{id:'decor',ic:'🛋️',n:'Furnish'}]:[{id:'sweep',ic:'🧹',n:'Sweep'},{id:'mop',ic:'🧼',n:'Mop'},{id:'wipe',ic:'🧽',n:'Wipe'},{id:'repair',ic:'🔨',n:'Repair'},{id:'paint',ic:'🖌️',n:'Paint'},{id:'decor',ic:'🛋️',n:'Furnish'}];
+  document.getElementById('tools').innerHTML=tl.map(t=>'<button class="tl'+(tool===t.id?' sel':'')+'" onclick="tool=\''+t.id+'\';if(t.id!==\'decor\')GS.selFurn=null;updateUI()"><span class="ti">'+t.ic+'</span>'+t.n+'</button>').join('');
 }
 
-function pickHouse(i){
-  GS.house=i;GS.room=0;GS.task=0;GS.build={};GS.furn={};GS.selFurn=null;
-  GS.construction={foundation:!0,walls:!0,windows:!0,doors:!0,roof:!0};
-  const t=HOMES[i].rooms[0].tk[0];tool=t.t;
-  document.getElementById('g-select').classList.add('hidden');
-  updateUI();draw();toast('🪵 '+HOMES[i].n+' — '+t.ic+' '+t.n);
+function pick(i){
+  GS.house=i;GS.room=0;GS.task=0;GS.bld={};GS.furn={};GS.selFurn=null;GS.struct={foundation:0,walls:0,windows:0,door:0,roof:0,floor:0,paint:0,decor:0};
+  const h=getH();
+  if(mode==='build')tool='hammer';else{const t=h.rooms[0].tk[0];tool=getTool(t.t)}
+  document.getElementById('menu').classList.add('hid');updateUI();draw();tm(mode==='build'?'🔨 Building '+h.n:'🧹 Renovating '+h.n)
 }
 
-function openMap(){
-  if(GS.house==null){showSelect();return}
-  const h=HOMES[GS.house];
-  let rms=h.rooms.map((r,i)=>{let s=i<GS.room?'✅':i===GS.room?'🔨':'🔒';let d=0,tot=0;if(i<GS.room)d=tot=r.tk.length;else if(i===GS.room)r.tk.forEach((t,ti)=>{tot++;if(ti<GS.task)d++});else tot=r.tk.length;return s+' '+r.n+(tot>0?' ['+Math.round(d/tot*100)+'%]':'');}).join('\n');
-  let n=prompt('🪵 '+h.n+' — Floor Plan\n\n'+rms+'\n\nJump to room (1-'+h.rooms.length+') or 0 to cancel:');
-  if(n&&!isNaN(n)){let rn=parseInt(n)-1;if(rn>=0&&rn<h.rooms.length&&rn<=GS.room){GS.room=rn;GS.task=0;GS.build={};GS.furn={};GS.selFurn=null;let t=gT();if(t)tool=t.t;updateUI();draw();toast('📍 '+h.rooms[rn].n)}}
-}
+function openMenu(){document.getElementById('menu').classList.remove('hid');updateUI()}
+function toggleMode(){mode=mode==='build'?'renovate':'build';GS.house=null;GS.room=0;GS.task=0;GS.bld={};GS.furn={};GS.selFurn=null;GS.struct={foundation:0,walls:0,windows:0,door:0,roof:0,floor:0,paint:0,decor:0};updateUI();draw();tm('Mode: '+mode)}
 
-function showSelect(){document.getElementById('g-select').classList.remove('hidden');updateUI()}
-function enterGame(){document.getElementById('game').style.display='flex';document.getElementById('site').classList.add('hidden');document.body.style.overflow='hidden';resize();showSelect();updateUI();draw();if(!anim)anim=requestAnimationFrame(loop)}
-function leaveGame(){document.getElementById('game').style.display='none';document.getElementById('site').classList.remove('hidden');document.body.style.overflow='';if(anim){cancelAnimationFrame(anim);anim=null}}
 function loop(){tick++;if(tick%30===0)updateUI();anim=requestAnimationFrame(loop)}
-function saveG(){try{localStorage.setItem('ib_wood3',JSON.stringify({stars:GS.stars,xp:GS.xp,completed:GS.completed}))}catch(e){}}
-function loadG(){try{const d=JSON.parse(localStorage.getItem('ib_wood3'));if(d){GS.stars=d.stars||0;GS.xp=d.xp||0;GS.completed=d.completed||[];GS.level=Math.floor(GS.xp/200)+1}}catch(e){}}
+function saveG(){try{localStorage.setItem('ib_game',JSON.stringify({stars:GS.stars,xp:GS.xp,done:GS.done,wood:GS.wood}))}catch(e){}}
+function loadG(){try{const d=JSON.parse(localStorage.getItem('ib_game'));if(d){GS.stars=d.stars||0;GS.xp=d.xp||0;GS.done=d.done||[];GS.wood=d.wood||'oak';GS.level=Math.floor(GS.xp/200)+1}}catch(e){}}
 
-const tips=['Loading wood workshop...','Preparing oak finishes...','Warming up tools...','Ready!'];
-let ti=0;setInterval(()=>{ti=(ti+1)%tips.length;const el=document.getElementById('l-t');if(el)el.textContent=tips[ti]},400);
-window.addEventListener('load',()=>{loadG();setTimeout(()=>document.getElementById('loading').classList.add('hide'),1600)});
+// Celebration
+function celebrate(){
+  const cel=document.getElementById('cel'),ctx=cel.getContext('2d');cel.width=innerWidth;cel.height=innerHeight;cel.classList.add('show');
+  let ps=[];for(let i=0;i<60;i++){ps.push({x:cel.width/2,y:cel.height*.3,vx:(Math.random()-.5)*8,vy:-Math.random()*8-2,life:1,color:['#FFD700','#FF6B35','#4ADE80','#c49a6c','#ff69b4'][Math.floor(Math.random()*5)],size:Math.random()*3+1})}
+  function af(){ctx.clearRect(0,0,cel.width,cel.height);ps=ps.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.life-=.012;if(p.life<=0)return!1;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=p.color.slice(0,-1)+','+p.life+')';ctx.fill();return!0});if(ps.length>0)requestAnimationFrame(af);else cel.classList.remove('show')}
+  af();
+}
 
-const WPRODS=[{n:'Rough Lumber',d:'Raw timber',img:'https://tse1.explicit.bing.net/th/id/OIP.JpoaJcOlltQuns5c5ZZFLAHaE8'},{n:'Hardwood Planks',d:'Precision-cut',img:'https://images-cdn.ubuy.co.in/66aee1d363883468c8426527-roomtec-acoustic-wood-wall-panels.jpg'},{n:'Structural Beams',d:'Load-bearing',img:'https://tse2.mm.bing.net/th/id/OIP.PuJozJiZmQNIflRCKTtu1AAAAA'},{n:'Birch Plywood',d:'Engineered',img:'https://www.topakustikusa.com/wp-content/uploads/2018/11/type-R.jpg'},{n:'Oak Flooring',d:'Solid oak',img:'https://thegoodhuman.com/wp-content/uploads/2023/04/engineered-wood-materials.webp'},{n:'Cedar Siding',d:'Weatherproof',img:'https://tse1.explicit.bing.net/th/id/OIP.wLOFjHUA3Y5NXBt7WP513AHaHa'},{n:'Pine Framing',d:'Build grade',img:'https://totemstrips.ca/wp-content/uploads/2018/06/Square-Edge-Cedar-Strips-1024x1018.jpg'},{n:'Teak Decking',d:'Premium',img:'https://thumbs.dreamstime.com/b/construction-material-samples-419468249.jpg'}];
-try{document.getElementById('prodGrid').innerHTML=WPRODS.map(p=>'<div class="scard spcard"><div class="spcard-img"><img src="'+p.img+'" alt="'+p.n+'" loading="lazy" onerror="this.style.display=\'none\'"></div><div class="spcard-info"><h3>'+p.n+'</h3><p>'+p.d+'</p></div></div>').join('')}catch(e){}
+const tips=['Loading workshop...','Preparing wood...','Ready!'];
+let ti=0;setInterval(()=>{ti=(ti+1)%tips.length;const el=document.getElementById('lt');if(el)el.textContent=tips[ti]},400);
+window.addEventListener('load',()=>{loadG();setTimeout(()=>document.getElementById('load').classList.add('hide'),1600);rs();updateUI();draw();if(!anim)anim=requestAnimationFrame(loop)});
 </script>
 </body>
 </html>

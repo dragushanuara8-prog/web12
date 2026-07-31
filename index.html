@@ -2,280 +2,305 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>InstaBuild 3D — House Builder</title>
+<title>InstaBuild 3D — Modern Home Designer</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{overflow:hidden;background:#000;font-family:'Inter',sans-serif}
-#cv{display:block}
-#ui{position:fixed;top:0;left:0;right:0;z-index:10;pointer-events:none}
-#top{display:flex;align-items:center;gap:.5rem;padding:.4rem .8rem;background:rgba(0,0,0,.8);pointer-events:all}
-#top button{padding:.3rem .7rem;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#ccc;font-size:.7rem;cursor:pointer;font-family:inherit;transition:all .15s}
-#top button:hover{background:rgba(255,255,255,.1);color:#fff}
-#top button.sel{background:#c49a6c;color:#000;border-color:#c49a6c}
-#info{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#ccc;padding:.4rem 1rem;border-radius:20px;font-size:.7rem;pointer-events:none;z-index:10}
-#info span{color:#c49a6c}
-#help{position:fixed;top:50%;right:1rem;transform:translateY(-50%);background:rgba(0,0,0,.7);color:#999;padding:.6rem .8rem;border-radius:8px;font-size:.6rem;line-height:1.6;pointer-events:none;z-index:10}
+#ui{position:fixed;top:0;left:0;right:0;z-index:10}
+#bar{display:flex;align-items:center;gap:.35rem;padding:.35rem .7rem;background:rgba(15,15,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+#bar span.s{color:#c49a6c;font-weight:700;font-size:.7rem;margin-right:.4rem}
+#bar button{padding:.25rem .55rem;border-radius:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#aaa;font-size:.62rem;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+#bar button:hover{background:rgba(255,255,255,.08);color:#ddd}
+#bar button.sel{background:#c49a6c;color:#0f0f14;border-color:#c49a6c;font-weight:600}
+#bar .sep{width:1px;height:20px;background:rgba(255,255,255,.1);margin:0 .2rem}
+#info{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);background:rgba(15,15,20,.88);color:#bbb;padding:.35rem 1rem;border-radius:20px;font-size:.65rem;pointer-events:none;z-index:10;border:1px solid rgba(255,255,255,.06)}
+#info em{color:#c49a6c;font-style:normal}
+#hint{position:fixed;right:1rem;top:50%;transform:translateY(-50%);background:rgba(15,15,20,.78);color:#777;padding:.5rem .7rem;border-radius:8px;font-size:.55rem;line-height:1.7;pointer-events:none;z-index:10;border:1px solid rgba(255,255,255,.05)}
+#hint b{color:#aaa}
 </style>
 </head>
 <body>
 <canvas id="cv"></canvas>
-<div id="ui">
-<div id="top">
-<span style="color:#c49a6c;font-weight:700;font-size:.75rem;margin-right:.5rem">🏗️ InstaBuild 3D</span>
-<button id="b-foundation" class="sel" onclick="setTool('foundation')">🧱 Foundation</button>
-<button id="b-wall" onclick="setTool('wall')">🧱 Wall</button>
-<button id="b-window" onclick="setTool('window')">🪟 Window</button>
-<button id="b-door" onclick="setTool('door')">🚪 Door</button>
-<button id="b-roof" onclick="setTool('roof')">🏠 Roof</button>
-<button id="b-floor" onclick="setTool('floor')">🪵 Floor</button>
-<button id="b-furniture" onclick="setTool('furniture')">🛋️ Furniture</button>
-<span style="flex:1"></span>
-<button id="b-rotate" onclick="rotMode=!rotMode;this.classList.toggle('sel',rotMode)">🔄 Rotate</button>
-<button id="b-delete" onclick="delMode=!delMode;this.classList.toggle('sel',delMode)">🗑️ Delete</button>
+<div id="ui"><div id="bar">
+<span class="s">🏗️ InstaBuild 3D</span>
+<div class="sep"></div>
+<button id="t-foundation" class="sel" onclick="setTool('foundation')">🧱 Foundation</button>
+<button id="t-wall" onclick="setTool('wall')">🧱 Wall</button>
+<button id="t-window" onclick="setTool('window')">🪟 Window</button>
+<button id="t-door" onclick="setTool('door')">🚪 Door</button>
+<button id="t-roof" onclick="setTool('roof')">🏠 Roof</button>
+<button id="t-floor" onclick="setTool('floor')">🪵 Floor</button>
+<button id="t-fence" onclick="setTool('fence')">🏡 Fence</button>
+<button id="t-furniture" onclick="setTool('furniture')">🛋️ Item</button>
+<div class="sep"></div>
+<button id="t-rotate" onclick="rMode=!rMode;this.classList.toggle('sel',rMode)">🔄 Rotate</button>
+<button id="t-delete" onclick="dMode=!dMode;this.classList.toggle('sel',dMode);upInfo()">🗑️</button>
 <button onclick="focusHouse()">🔍 Focus</button>
-</div>
-</div>
-<div id="info"><span id="info-txt">🧱 Foundation — Click ground to place</span></div>
-<div id="help">🖱️ Left Click: Place<br>🖱️ Right Drag: Rotate<br>🖱️ Scroll: Zoom<br>R: Rotate object<br>⌫: Delete mode<br>F: Focus view</div>
+<button onclick="saveHouse()">💾 Save</button>
+<button onclick="loadHouse()">📂 Load</button>
+<button onclick="clearAll()">🧹 Clear</button>
+</div></div>
+<div id="info"><em id="it">🧱 Foundation</em> — Click ground to place</div>
+<div id="hint"><b>🖱️ Controls</b><br>Left: Place object<br>Right: Rotate view<br>Middle/Wheel: Zoom<br>R: Rotate item<br>⌫: Delete mode<br>1-8: Select tool<br>F: Focus house<br>WASD: Walk</div>
 
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
-</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-const cv=document.getElementById('cv'),renderer=new THREE.WebGLRenderer({canvas:cv,antialias:!0});
-renderer.shadowMap.enabled=!0;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
+const cv=document.getElementById('cv');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:!0,alpha:!1});
+R.shadowMap.enabled=!0;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputColorSpace=THREE.SRGBColorSpace;
+R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
 
-const scene=new THREE.Scene();
-scene.background=new THREE.Color('#87CEEB');scene.fog=new THREE.Fog('#87CEEB',50,200);
+const S=new THREE.Scene();
+S.background=new THREE.Color('#87CEEB');S.fog=new THREE.Fog('#87CEEB',60,180);
 
-const camera=new THREE.PerspectiveCamera(55,2,0.5,300);
-camera.position.set(25,18,25);camera.lookAt(0,0,0);
+const C=new THREE.PerspectiveCamera(50,2,.5,250);
+C.position.set(30,20,30);C.lookAt(0,1,0);
 
-const controls=new OrbitControls(camera,cv);
-controls.target.set(0,1,0);controls.enableDamping=!0;controls.dampingFactor=.08;
-controls.minDistance=3;controls.maxDistance=80;controls.maxPolarAngle=Math.PI*.48;
-controls.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.ROTATE};
-controls.update();
+const ctrl=new OrbitControls(C,cv);
+ctrl.target.set(0,1.5,0);ctrl.enableDamping=!0;ctrl.dampingFactor=.1;
+ctrl.minDistance=2;ctrl.maxDistance=100;ctrl.maxPolarAngle=Math.PI*.49;
+ctrl.mouseButtons={LEFT:null,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.ROTATE};
+ctrl.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
+ctrl.update();
 
-// Lighting
-const sun=new THREE.DirectionalLight('#fffdf0',4.5);sun.position.set(30,25,10);
-sun.castShadow=!0;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.near=.5;sun.shadow.camera.far=100;
-sun.shadow.camera.left=-30;sun.shadow.camera.right=30;sun.shadow.camera.top=30;sun.shadow.camera.bottom=-30;
-sun.shadow.bias=-.0004;scene.add(sun);
+// --- LIGHTING ---
+const sun=new THREE.DirectionalLight('#fffdf5',5);
+sun.position.set(40,30,15);sun.castShadow=!0;
+sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.near=.5;sun.shadow.camera.far=120;
+sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;
+sun.shadow.bias=-.0003;sun.shadow.normalBias=.02;S.add(sun);
 
-const ambient=new THREE.AmbientLight('#bcc8e8',1.2);scene.add(ambient);
-const hemi=new THREE.HemisphereLight('#87CEEB','#3a5a2a',.8);scene.add(hemi);
+S.add(new THREE.AmbientLight('#c8d4f0',1.5));
+S.add(new THREE.HemisphereLight('#bcd4f0','#4a6a3a',.9));
 
-// Ground
-const groundGeo=new THREE.PlaneGeometry(120,120);
-const groundMat=new THREE.MeshStandardMaterial({color:'#4a7a2a',roughness:.9});
-const ground=new THREE.Mesh(groundGeo,groundMat);ground.rotation.x=-Math.PI/2;ground.receiveShadow=!0;scene.add(ground);
+// --- GROUND ---
+const gMat=new THREE.MeshStandardMaterial({color:'#558b2f',roughness:.85});
+const gMesh=new THREE.Mesh(new THREE.PlaneGeometry(150,150),gMat);
+gMesh.rotation.x=-Math.PI/2;gMesh.receiveShadow=!0;S.add(gMesh);
 
-// Grid
-const grid=new THREE.GridHelper(60,60,'#555','#444');grid.position.y=.01;scene.add(grid);
+// Grid helper
+const grd=new THREE.PolarGridHelper(50,64,32,256,'#666','#444');grd.position.y=.005;S.add(grd);
 
-// Trees
-function addTree(x,z){
+// --- ENVIRONMENT ---
+function tree(x,z,s=1){
   const g=new THREE.Group();
-  const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.15,.2,3,8),new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.8}));
-  trunk.position.y=1.5;trunk.castShadow=!0;g.add(trunk);
-  const c1=new THREE.Mesh(new THREE.ConeGeometry(1.2,2.5,8),new THREE.MeshStandardMaterial({color:'#2d6a2d',roughness:.7}));
-  c1.position.y=3.5;c1.castShadow=!0;g.add(c1);
-  const c2=new THREE.Mesh(new THREE.ConeGeometry(1,2,8),new THREE.MeshStandardMaterial({color:'#3a8a3a',roughness:.7}));
-  c2.position.y=5;c2.castShadow=!0;g.add(c2);
-  g.position.set(x,0,z);scene.add(g);
+  const t=new THREE.CylinderGeometry(.12*s,.18*s,2.5*s,8);
+  const tm=new THREE.Mesh(t,new THREE.MeshStandardMaterial({color:'#7a5a3a',roughness:.7}));
+  tm.position.y=1.25*s;tm.castShadow=!0;g.add(tm);
+  [1.3,1,.7].forEach((r,i)=>{const c=new THREE.ConeGeometry(r*s,2*s,8);const cm=new THREE.Mesh(c,new THREE.MeshStandardMaterial({color:['#2d6a2d','#3a7a3a','#4a8a4a'][i],roughness:.6}));cm.position.y=(2.5+i*1.5)*s;cm.castShadow=!0;g.add(cm)});
+  g.position.set(x,0,z);S.add(g);
 }
-for(let i=0;i<25;i++){addTree(-25+Math.random()*50,-25+Math.random()*50)}
+function flower(x,z){const f=new THREE.Mesh(new THREE.SphereGeometry(.15),new THREE.MeshStandardMaterial({color:['#ff6b8a','#ffe86b','#ff9a3c','#ff4060','#c49a6c','#e891ff'][Math.floor(Math.random()*6)],roughness:.3}));f.position.set(x,.15,z);f.castShadow=!0;S.add(f)}
+for(let i=0;i<40;i++)tree(-40+Math.random()*80,-40+Math.random()*80,.7+Math.random()*.8);
+for(let i=0;i<80;i++)flower(-45+Math.random()*90,-45+Math.random()*90);
 
 // Road
-const road=new THREE.Mesh(new THREE.PlaneGeometry(4,60),new THREE.MeshStandardMaterial({color:'#444',roughness:1}));
-road.rotation.x=-Math.PI/2;road.position.set(20,.02,0);road.receiveShadow=!0;scene.add(road);
+const roadM=new THREE.Mesh(new THREE.PlaneGeometry(3.5,80),new THREE.MeshStandardMaterial({color:'#3a3a3a',roughness:.95}));
+roadM.rotation.x=-Math.PI/2;roadM.position.set(22,.015,0);roadM.receiveShadow=!0;S.add(roadM);
+const roadL=new THREE.Mesh(new THREE.PlaneGeometry(.15,80),new THREE.MeshStandardMaterial({color:'#ddd',roughness:.5,emissive:'#222',emissiveIntensity:.2}));
+roadL.rotation.x=-Math.PI/2;roadL.position.set(20.7,.02,0);S.add(roadL);
+roadL.clone().position.set(23.3,.02,0);S.add(roadL.clone());
 
-// Sky dome
-const skyGeo=new THREE.SphereGeometry(80,32,32);
-const skyMat=new THREE.ShaderMaterial({uniforms:{topColor:{value:new THREE.Color('#4a90d9')},bottomColor:{value:new THREE.Color('#c8ddf0')},offset:{value:20},exponent:{value:.6}},vertexShader:'varying vec3 vWorldPosition;void main(){vec4 wp=modelMatrix*vec4(position,1.);vWorldPosition=wp.xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 topColor,bottomColor;uniform float offset,exponent;varying vec3 vWorldPosition;void main(){float h=normalize(vWorldPosition+offset).y;gl_FragColor=vec4(mix(bottomColor,topColor,max(pow(max(h,0.),exponent),0.)),1.);}',side:THREE.BackSide});
-const sky=new THREE.Mesh(skyGeo,skyMat);scene.add(sky);
+// --- SKY ---
+const skyGeo=new THREE.SphereGeometry(90,32,32);
+const skyMat=new THREE.ShaderMaterial({uniforms:{t:{value:new THREE.Color('#4a90d9')},b:{value:new THREE.Color('#d8e8f8')}},vertexShader:'varying vec3 w;void main(){vec4 wp=modelMatrix*vec4(position,1.);w=wp.xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform vec3 t,b;varying vec3 w;void main(){float h=normalize(w+vec3(0,25,0)).y;gl_FragColor=vec4(mix(b,t,smoothstep(0.,.6,h)),1.);}',side:THREE.BackSide,depthWrite:!1});
+S.add(new THREE.Mesh(skyGeo,skyMat));
 
-// Building state
-let tool='foundation',rotMode=!1,delMode=!1,buildings=[],preview=null,furniture=[];
-const gridSize=1;
+// --- BUILDING STATE ---
+let tool='foundation',rMode=!1,dMode=!1,parts=[],furn=[],preview=null,time=0,walkSpeed=.15,keys={};
+const GS=1;
 
-function setTool(t){tool=t;rotMode=!1;delMode=!1;document.getElementById('b-delete').classList.remove('sel');document.getElementById('b-rotate').classList.remove('sel');document.querySelectorAll('#top button[id^=b-]').forEach(b=>b.classList.remove('sel'));document.getElementById('b-'+t).classList.add('sel');updateInfo()}
-function updateInfo(){const m={foundation:'🧱 Foundation — Click ground to place',wall:'🧱 Wall — Click to build up',window:'🪟 Window — Click wall to place',door:'🚪 Door — Click wall to place',roof:'🏠 Roof — Click top to cap',floor:'🪵 Floor — Click inside',furniture:'🛋️ Furniture — Click to place'};document.getElementById('info-txt').textContent=delMode?'🗑️ Delete mode — Click object to remove':m[tool]||''}
-window.setTool=setTool;
+// Materials
+const MATS={
+  foundation:new THREE.MeshStandardMaterial({color:'#b0b0b0',roughness:.35,metalness:.1}),
+  wall:new THREE.MeshStandardMaterial({color:'#f5f0e8',roughness:.4}),
+  wallDark:new THREE.MeshStandardMaterial({color:'#e8e0d5',roughness:.45}),
+  wood:new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.3}),
+  windowGlass:new THREE.MeshPhysicalMaterial({color:'#d8e8ff',roughness:.05,metalness:.02,transmission:.4,opacity:.75,transparent:!0}),
+  roof:new THREE.MeshStandardMaterial({color:'#4a3520',roughness:.5}),
+  floorWood:new THREE.MeshStandardMaterial({color:'#c4a060',roughness:.3}),
+  fence:new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}),
+  doorHandle:new THREE.MeshStandardMaterial({color:'#d4a84b',roughness:.2,metalness:.9}),
+};
 
-// Raycaster
-const raycaster=new THREE.Raycaster(),mouse=new THREE.Vector2();
-function getIntersection(e,objects){
-  const r=cv.getBoundingClientRect();
-  mouse.x=((e.clientX-r.left)/r.width)*2-1;mouse.y=-((e.clientY-r.top)/r.height)*2+1;
-  raycaster.setFromCamera(mouse,camera);
-  return raycaster.intersectObjects(objects,!1);
+function snap(v){return Math.round(v/GS)*GS}
+function mkPreview(w,h,d){const g=new THREE.BoxGeometry(w||4,.05,d||3);const m=new THREE.MeshBasicMaterial({color:'#c49a6c',opacity:.35,transparent:!0,depthTest:!1,depthWrite:!1});const mesh=new THREE.Mesh(g,m);mesh.renderOrder=999;return mesh}
+
+// --- BUILD FUNCTIONS ---
+function addPart(grp,type){grp.name=type;grp.userData={type};parts.push(grp);S.add(grp);return grp}
+function addFurn(grp,type){grp.name='furn_'+type;grp.userData={type:'furniture',fType:type};furn.push(grp);S.add(grp);return grp}
+
+function buildFoundation(x,z){
+  const g=new THREE.Group();const b=new THREE.BoxGeometry(8,.25,10);
+  const m=new THREE.Mesh(b,MATS.foundation);m.position.y=.125;m.castShadow=!0;m.receiveShadow=!0;g.add(m);
+  const e=new THREE.BoxGeometry(8.1,.08,10.1);const me=new THREE.Mesh(e,new THREE.MeshStandardMaterial({color:'#999',roughness:.5}));
+  me.position.y=.29;g.add(me);g.position.set(snap(x),0,snap(z));return addPart(g,'foundation');
 }
-
-// Build functions
-function snap(v){return Math.round(v/gridSize)*gridSize}
-
-function createFoundation(x,z){
-  const g=new THREE.Group();g.name='foundation';g.userData={type:'foundation'};
-  const geo=new THREE.BoxGeometry(6,.3,8);const mat=new THREE.MeshStandardMaterial({color:'#999',roughness:.6});
-  const m=new THREE.Mesh(geo,mat);m.position.y=.15;m.castShadow=!0;m.receiveShadow=!0;g.add(m);
-  g.position.set(snap(x),0,snap(z));scene.add(g);buildings.push(g);return g;
+function buildWall(x,z,ry=0){
+  const g=new THREE.Group();const b=new THREE.BoxGeometry(5,.08,3);
+  const m=new THREE.Mesh(b,MATS.wallDark);m.position.y=1.5;m.castShadow=!0;m.receiveShadow=!0;g.add(m);
+  const m2=new THREE.Mesh(b.clone(),MATS.wall);m2.position.y=3;m2.castShadow=!0;m2.receiveShadow=!0;g.add(m2);
+  const sk=new THREE.BoxGeometry(5.02,.06,3.02);
+  const skM=new THREE.Mesh(sk,new THREE.MeshStandardMaterial({color:'#ddd',roughness:.5}));
+  skM.position.y=.03;g.add(skM);
+  g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'wall');
 }
-
-function createWall(x,y,z,ry=0){
-  const g=new THREE.Group();g.name='wall';g.userData={type:'wall'};
-  const geo=new THREE.BoxGeometry(4,.1,3);const mat=new THREE.MeshStandardMaterial({color:'#c49a6c',roughness:.5});
-  const m=new THREE.Mesh(geo,mat);m.castShadow=!0;m.receiveShadow=!0;g.add(m);
-  g.position.set(snap(x),y,snap(z));g.rotation.y=ry;scene.add(g);buildings.push(g);return g;
+function buildWindow(x,z,ry=0){
+  const g=new THREE.Group();
+  const f=new THREE.BoxGeometry(.12,2,1.8);const fm=new THREE.Mesh(f,MATS.wood);fm.position.y=1.5;fm.castShadow=!0;g.add(fm);
+  const gl=new THREE.BoxGeometry(.06,1.7,1.5);const gm=new THREE.Mesh(gl,MATS.windowGlass);gm.position.y=1.5;g.add(gm);
+  const si=new THREE.BoxGeometry(.04,2.1,2);const sm=new THREE.Mesh(si,new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}));
+  sm.position.y=1.5;g.add(sm);g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'window');
 }
-
-function createWindow(x,y,z,ry=0){
-  const g=new THREE.Group();g.name='window';g.userData={type:'window'};
-  const frame=new THREE.Mesh(new THREE.BoxGeometry(.1,1.5,1.2),new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.4}));
-  frame.castShadow=!0;g.add(frame);
-  const glass=new THREE.Mesh(new THREE.BoxGeometry(.05,1.3,.9),new THREE.MeshPhysicalMaterial({color:'#c8ddf0',roughness:.1,metalness:0,transmission:.3,opacity:.7,transparent:!0}));
-  g.add(glass);
-  g.position.set(snap(x),y,snap(z));g.rotation.y=ry;scene.add(g);buildings.push(g);return g;
+function buildDoor(x,z,ry=0){
+  const g=new THREE.Group();
+  const d=new THREE.BoxGeometry(.2,3,.9);const dm=new THREE.Mesh(d,new THREE.MeshStandardMaterial({color:'#5c3a1e',roughness:.25}));
+  dm.position.y=1.5;dm.castShadow=!0;g.add(dm);
+  const h=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,.15,8),MATS.doorHandle);h.position.set(.12,1.35,.3);h.rotation.x=Math.PI/2;g.add(h);
+  const fm=new THREE.BoxGeometry(.28,3.1,1.1);const fmm=new THREE.Mesh(fm,new THREE.MeshStandardMaterial({color:'#e8ddd0',roughness:.4}));
+  fmm.position.y=1.5;g.add(fmm);g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'door');
 }
-
-function createDoor(x,y,z,ry=0){
-  const g=new THREE.Group();g.name='door';g.userData={type:'door'};
-  const geo=new THREE.BoxGeometry(.15,2.5,1);const mat=new THREE.MeshStandardMaterial({color:'#5c3a1e',roughness:.4});
-  const m=new THREE.Mesh(geo,mat);m.position.y=1.25;m.castShadow=!0;g.add(m);
-  // Handle
-  const h=new THREE.Mesh(new THREE.SphereGeometry(.08),new THREE.MeshStandardMaterial({color:'#ffd700',roughness:.2,metalness:.8}));
-  h.position.set(.1,1.4,.3);g.add(h);
-  g.position.set(snap(x),0,snap(z));g.rotation.y=ry;scene.add(g);buildings.push(g);return g;
+function buildRoof(x,z){
+  const g=new THREE.Group();
+  const sh=new THREE.Shape();sh.moveTo(-4.5,0);sh.lineTo(-3.5,.8);sh.lineTo(0,3);sh.lineTo(3.5,.8);sh.lineTo(4.5,0);sh.closePath();
+  const ex={steps:1,depth:10.5,bevelEnabled:!1};const geo=new THREE.ExtrudeGeometry(sh,ex);
+  geo.translate(0,0,-5.25);geo.rotateX(-Math.PI/2);
+  const m=new THREE.Mesh(geo,MATS.roof);m.position.set(snap(x),3.08,snap(z));m.castShadow=!0;m.receiveShadow=!0;g.add(m);
+  return addPart(g,'roof');
 }
-
-function createRoof(x,y,z){
-  const g=new THREE.Group();g.name='roof';g.userData={type:'roof'};
-  const shape=new THREE.Shape();shape.moveTo(-3.5,0);shape.lineTo(0,2.5);shape.lineTo(3.5,0);shape.closePath();
-  const extrudeSettings={steps:1,depth:9,bevelEnabled:!1};
-  const geo=new THREE.ExtrudeGeometry(shape,extrudeSettings);geo.translate(0,0,-4.5);geo.rotateX(-Math.PI/2);
-  const mat=new THREE.MeshStandardMaterial({color:'#6B3513',roughness:.6});
-  const m=new THREE.Mesh(geo,mat);m.position.set(snap(x),y,snap(z));m.castShadow=!0;m.receiveShadow=!0;
-  g.add(m);scene.add(g);buildings.push(g);return g;
+function buildFloor(x,z){
+  const g=new THREE.Group();const b=new THREE.BoxGeometry(7,.04,9);
+  const m=new THREE.Mesh(b,MATS.floorWood);m.position.y=.02;m.receiveShadow=!0;g.add(m);
+  g.position.set(snap(x),.01,snap(z));return addPart(g,'floor');
 }
-
-function createFloor(x,y,z){
-  const g=new THREE.Group();g.name='floor';g.userData={type:'floor'};
-  const geo=new THREE.BoxGeometry(5,.05,7);const mat=new THREE.MeshStandardMaterial({color:'#b8956a',roughness:.4});
-  const m=new THREE.Mesh(geo,mat);m.position.y=.02;m.receiveShadow=!0;g.add(m);
-  g.position.set(snap(x),y,snap(z));scene.add(g);buildings.push(g);return g;
+function buildFence(x,z,ry=0){
+  const g=new THREE.Group();
+  for(let i=-2;i<=2;i+=.6){
+    const p=new THREE.CylinderGeometry(.04,.05,1.3,8);const pm=new THREE.Mesh(p,MATS.fence);pm.position.set(i,.65,1.2);pm.castShadow=!0;g.add(pm);
+  }
+  const r1=new THREE.BoxGeometry(3.2,.06,.06);const rm1=new THREE.Mesh(r1,MATS.fence);rm1.position.set(0,.95,1.2);rm1.castShadow=!0;g.add(rm1);
+  const r2=new THREE.BoxGeometry(3.2,.06,.06);const rm2=new THREE.Mesh(r2,MATS.fence);rm2.position.set(0,.5,1.2);rm2.castShadow=!0;g.add(rm2);
+  g.position.set(snap(x),0,snap(z));g.rotation.y=ry;return addPart(g,'fence');
 }
-
-function createFurniture(x,y,z,type){
-  const g=new THREE.Group();g.name='furniture';g.userData={type:'furniture',fType:type};
-  const items={
-    sofa:()=>{const b=new THREE.BoxGeometry(2,.6,.8);const m=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#7a6050',roughness:.5}));m.position.y=.3;m.castShadow=!0;g.add(m)},
-    table:()=>{const t=new THREE.CylinderGeometry(.6,.6,.05,16);const mt=new THREE.Mesh(t,new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.3}));mt.position.y=.6;mt.castShadow=!0;g.add(mt);const l=new THREE.CylinderGeometry(.06,.06,.55,8);['#7a5a3a'].forEach(()=>{const ml=new THREE.Mesh(l,new THREE.MeshStandardMaterial({color:'#7a5a3a',roughness:.4}));ml.position.set(.35,.27,.35);ml.castShadow=!0;g.add(ml)})},
-    chair:()=>{const s=new THREE.BoxGeometry(.5,.5,.5);const ms=new THREE.Mesh(s,new THREE.MeshStandardMaterial({color:'#6a5a4a',roughness:.5}));ms.position.y=.25;ms.castShadow=!0;g.add(ms);const b=new THREE.BoxGeometry(.5,.4,.05);const mb=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.5}));mb.position.set(0,.45,.25);g.add(mb)},
-    lamp:()=>{const p=new THREE.CylinderGeometry(.05,.05,2,8);const mp=new THREE.Mesh(p,new THREE.MeshStandardMaterial({color:'#888',roughness:.3}));mp.position.y=1;mp.castShadow=!0;g.add(mp);const s=new THREE.SphereGeometry(.3);const ms=new THREE.Mesh(s,new THREE.MeshStandardMaterial({color:'#ffe8a0',roughness:.1,emissive:'#ffe8a0',emissiveIntensity:.5}));ms.position.y=2.1;g.add(ms)},
-    plant:()=>{const p=new THREE.CylinderGeometry(.08,.1,.8,8);const mp=new THREE.Mesh(p,new THREE.MeshStandardMaterial({color:'#8B4513'}));mp.position.y=.4;mp.castShadow=!0;g.add(mp);const l=new THREE.SphereGeometry(.4);const ml=new THREE.Mesh(l,new THREE.MeshStandardMaterial({color:'#228B22',roughness:.6}));ml.position.y=1;ml.castShadow=!0;g.add(ml)},
-    bed:()=>{const b=new THREE.BoxGeometry(1.6,.4,2);const mb=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#8B6914',roughness:.4}));mb.position.y=.2;mb.castShadow=!0;g.add(mb);const h=new THREE.BoxGeometry(1.6,.2,.15);const mh=new THREE.Mesh(h,new THREE.MeshStandardMaterial({color:'#eee',roughness:.6}));mh.position.set(0,.5,.85);g.add(mh)}
+function buildFurniture(x,z,type){
+  const g=new THREE.Group();
+  const types={
+    sofa:()=>{const b=new THREE.BoxGeometry(2.2,.5,.9);const m=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#6a5a4a',roughness:.45}));m.position.y=.25;m.castShadow=!0;g.add(m);const c=new THREE.BoxGeometry(2,.3,.8);const mc=new THREE.Mesh(c,new THREE.MeshStandardMaterial({color:'#7a6a5a',roughness:.5}));mc.position.y=.6;mc.castShadow=!0;g.add(mc)},
+    table:()=>{const t=new THREE.CylinderGeometry(.6,.65,.04,24);const mt=new THREE.Mesh(t,new THREE.MeshStandardMaterial({color:'#a08060',roughness:.25}));mt.position.y=.7;mt.castShadow=!0;g.add(mt);for(let i=0;i<4;i++){const a=i*Math.PI/2;const l=new THREE.CylinderGeometry(.04,.05,.65,8);const ml=new THREE.Mesh(l,new THREE.MeshStandardMaterial({color:'#5a3a2a',roughness:.4}));ml.position.set(Math.cos(a)*.4,.32,Math.sin(a)*.4);ml.castShadow=!0;g.add(ml)}},
+    chair:()=>{const s=new THREE.BoxGeometry(.5,.4,.5);const ms=new THREE.Mesh(s,new THREE.MeshStandardMaterial({color:'#8a7a6a',roughness:.5}));ms.position.y=.2;ms.castShadow=!0;g.add(ms);const b=new THREE.BoxGeometry(.45,.35,.06);const mb=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#9a8a7a',roughness:.5}));mb.position.set(0,.55,.2);g.add(mb)},
+    lamp:()=>{const p=new THREE.CylinderGeometry(.04,.05,2.5,8);const mp=new THREE.Mesh(p,new THREE.MeshStandardMaterial({color:'#888',roughness:.3,metalness:.6}));mp.position.y=1.25;mp.castShadow=!0;g.add(mp);const s=new THREE.SphereGeometry(.35);const ms=new THREE.Mesh(s,new THREE.MeshStandardMaterial({color:'#fff8e0',roughness:.1,emissive:'#fff8e0',emissiveIntensity:.8}));ms.position.y=2.6;g.add(ms)},
+    plant:()=>{const p=new THREE.CylinderGeometry(.06,.1,.9,8);const mp=new THREE.Mesh(p,new THREE.MeshStandardMaterial({color:'#8B4513'}));mp.position.y=.45;mp.castShadow=!0;g.add(mp);const l=new THREE.SphereGeometry(.5,12,6);const ml=new THREE.Mesh(l,new THREE.MeshStandardMaterial({color:'#2a7a2a',roughness:.5}));ml.position.y=1.1;ml.castShadow=!0;g.add(ml)},
+    bed:()=>{const b=new THREE.BoxGeometry(1.8,.4,2.2);const mb=new THREE.Mesh(b,new THREE.MeshStandardMaterial({color:'#a08060',roughness:.35}));mb.position.y=.2;mb.castShadow=!0;g.add(mb);const p=new THREE.BoxGeometry(1.7,.15,.1);const mp=new THREE.Mesh(p,new THREE.MeshStandardMaterial({color:'#f5f0e8',roughness:.7}));mp.position.set(0,.48,1);g.add(mp)},
+    shelf:()=>{const s=new THREE.BoxGeometry(1.5,.06,.4);for(let i=0;i<3;i++){const ms=new THREE.Mesh(s,new THREE.MeshStandardMaterial({color:'#6B4528',roughness:.3}));ms.position.y=.5+i*.6;ms.castShadow=!0;g.add(ms)}}
   };
-  if(items[type])items[type]();
-  g.position.set(snap(x),y,snap(z));scene.add(g);furniture.push(g);return g;
+  if(types[type])types[type]();g.position.set(snap(x),.01,snap(z));return addFurn(g,type);
 }
 
-// Preview
-function updatePreview(pos){
-  if(preview){scene.remove(preview);preview=null}
-  const px=snap(pos.x),py=pos.y,pz=snap(pos.z);
-  const geo=new THREE.BoxGeometry(tool==='foundation'?6:tool==='door'?.15:tool==='window'?.1:4,.05,tool==='foundation'?8:tool==='door'?1:tool==='window'?1.2:3);
-  const mat=new THREE.MeshBasicMaterial({color:'#c49a6c',opacity:.4,transparent:!0,depthTest:!1});
-  preview=new THREE.Mesh(geo,mat);preview.position.set(px,py,pz);preview.renderOrder=999;preview.material.depthTest=!1;
-  scene.add(preview);
+// --- TOOLS ---
+function setTool(t){tool=t;rMode=!1;dMode=!1;document.getElementById('t-delete').classList.remove('sel');document.getElementById('t-rotate').classList.remove('sel');document.querySelectorAll('#bar button[id^=t-]').forEach(b=>b.classList.remove('sel'));document.getElementById('t-'+t).classList.add('sel');upInfo()}
+function upInfo(){document.getElementById('it').textContent=dMode?'🗑️ Delete':'🧱 Foundation|🧱 Wall|🪟 Window|🚪 Door|🏠 Roof|🪵 Floor|🏡 Fence|🛋️ Item'.split('|')[['foundation','wall','window','door','roof','floor','fence','furniture'].indexOf(tool)];document.getElementById('info').lastChild.textContent=dMode?' — Click object to remove':' — Click ground to place'}
+window.setTool=setTool;window.upInfo=upInfo;
+
+// --- RAYCASTER ---
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();
+function intersect(e,objs){
+  const r=cv.getBoundingClientRect();mouse.x=((e.clientX-r.left)/r.width)*2-1;mouse.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(mouse,C);return ray.intersectObjects(objs,!1);
 }
 
-// Click handler
+// --- MOUSE ---
 cv.addEventListener('pointermove',e=>{
-  if(delMode||!['foundation','wall','window','door','roof','floor','furniture'].includes(tool))return;
-  const isects=getIntersection(e,[ground,...buildings]);
-  if(isects.length>0){
-    const p=isects[0].point;p.y=0;
-    if(tool==='roof')p.y=3;if(tool==='wall'||tool==='window'||tool==='door')p.y=1.5;
-    if(tool==='floor')p.y=.1;
-    updatePreview(p);
-  }else if(preview){scene.remove(preview);preview=null}
+  if(dMode||!['foundation','wall','window','door','roof','floor','fence','furniture'].includes(tool)){if(preview){S.remove(preview);preview=null}return}
+  const objs=[gMesh,...parts];const is=intersect(e,objs);
+  if(is.length){
+    const p=is[0].point;p.x=snap(p.x);p.z=snap(p.z);let y=.01;
+    if(tool==='wall'||tool==='window'||tool==='door')y=0;
+    if(tool==='roof')y=3.08;
+    if(!preview){const w=tool==='foundation'?8:tool==='fence'?4:tool==='door'?.2:tool==='window'?.12:tool==='floor'?7:5;const h=.05;const d=tool==='foundation'?10:tool==='fence'?3:tool==='door'?.9:tool==='window'?1.8:tool==='floor'?7:3;preview=mkPreview(w,h,d);S.add(preview)}
+    preview.position.set(p.x,y,p.z);
+  }else if(preview){S.remove(preview);preview=null}
 });
-
 cv.addEventListener('click',e=>{
   if(e.button!==0)return;
-  if(delMode){
-    const all=[...buildings,...furniture];
-    const isects=getIntersection(e,all);
-    if(isects.length>0){
-      const obj=isects[0].object;
-      let parent=obj;while(parent.parent&&parent.parent!==scene)parent=parent.parent;
-      scene.remove(parent);buildings=buildings.filter(b=>b!==parent);furniture=furniture.filter(f=>f!==parent);
-    }
-    return;
-  }
-  const isects=getIntersection(e,[ground,...buildings]);
-  if(isects.length>0){
-    const p=isects[0].point.clone();p.x=snap(p.x);p.z=snap(p.z);
-    if(tool==='foundation')createFoundation(p.x,p.z);
-    else if(tool==='wall')createWall(p.x,1.5,p.z);
-    else if(tool==='window')createWindow(p.x,1.5,p.z);
-    else if(tool==='door')createDoor(p.x,0,p.z);
-    else if(tool==='roof')createRoof(p.x,3,p.z);
-    else if(tool==='floor')createFloor(p.x,.1,p.z);
-    else if(tool==='furniture'){const t=['sofa','table','chair','lamp','plant','bed'][Math.floor(Math.random()*6)];createFurniture(p.x,.1,p.z,t)}
-  }
-  if(preview){scene.remove(preview);preview=null}
+  if(dMode){const all=[...parts,...furn];const is=intersect(e,all);if(is.length){let obj=is[0].object;while(obj.parent&&obj.parent!==S)obj=obj.parent;S.remove(obj);parts=parts.filter(p=>p!==obj);furn=furn.filter(f=>f!==obj)}return}
+  const objs=[gMesh,...parts];const is=intersect(e,objs);if(!is.length)return;
+  const p=is[0].point;p.x=snap(p.x);p.z=snap(p.z);
+  const fn={foundation:()=>buildFoundation(p.x,p.z),wall:()=>buildWall(p.x,p.z),window:()=>buildWindow(p.x,p.z),door:()=>buildDoor(p.x,p.z),roof:()=>buildRoof(p.x,p.z),floor:()=>buildFloor(p.x,p.z),fence:()=>buildFence(p.x,p.z),furniture:()=>buildFurniture(p.x,p.z,['sofa','table','chair','lamp','plant','bed','shelf'][Math.floor(Math.random()*7)])};
+  if(fn[tool])fn[tool]();
+  if(preview){S.remove(preview);preview=null}
 });
 
-// Keyboard
+// --- KEYBOARD ---
 window.addEventListener('keydown',e=>{
-  if(e.key==='r'||e.key==='R'){rotMode=!rotMode;document.getElementById('b-rotate').classList.toggle('sel',rotMode)}
-  if(e.key==='Delete'||e.key==='Backspace'){delMode=!delMode;document.getElementById('b-delete').classList.toggle('sel',delMode);updateInfo()}
+  keys[e.key.toLowerCase()]=!0;
+  if(e.key==='r'||e.key==='R'){rMode=!rMode;document.getElementById('t-rotate').classList.toggle('sel',rMode)}
+  if(e.key==='Delete'||e.key==='Backspace'){dMode=!dMode;document.getElementById('t-delete').classList.toggle('sel',dMode);upInfo()}
   if(e.key==='f'||e.key==='F')focusHouse();
-  if(e.key>='1'&&e.key<='7'){const tl=['foundation','wall','window','door','roof','floor','furniture'];setTool(tl[parseInt(e.key)-1])}
+  if(e.key>='1'&&e.key<='8'){const tl=['foundation','wall','window','door','roof','floor','fence','furniture'];setTool(tl[parseInt(e.key)-1])}
 });
+window.addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=!1});
+
+// --- WALK ---
+function walk(){
+  const sp=walkSpeed;const dir=new THREE.Vector3();
+  C.getWorldDirection(dir);dir.y=0;dir.normalize();
+  const right=new THREE.Vector3().crossVectors(dir,new THREE.Vector3(0,1,0)).normalize();
+  const pos=C.position.clone();
+  if(keys.w)pos.addScaledVector(dir,sp);
+  if(keys.s)pos.addScaledVector(dir,-sp);
+  if(keys.a)pos.addScaledVector(right,-sp);
+  if(keys.d)pos.addScaledVector(right,sp);
+  const dist=pos.distanceTo(ctrl.target);
+  if(dist<ctrl.maxDistance&&dist>ctrl.minDistance){C.position.copy(pos);ctrl.target.addScaledVector(dir,(keys.w?sp:0)+(keys.s?-sp:0));ctrl.target.addScaledVector(right,(keys.d?sp:0)+(keys.a?-sp:0))}
+}
 
 function focusHouse(){
-  if(buildings.length===0){controls.target.set(0,1,0);camera.position.set(25,18,25);controls.update();return}
-  const box=new THREE.Box3();buildings.forEach(b=>box.expandByObject(b));
-  const center=new THREE.Vector3();box.getCenter(center);const size=new THREE.Vector3();box.getSize(size);
-  const maxDim=Math.max(size.x,size.y,size.z);const dist=maxDim*1.5;
-  controls.target.copy(center);camera.position.set(center.x+dist*.7,center.y+dist*.5,center.z+dist*.7);controls.update();
+  if(!parts.length){ctrl.target.set(0,1,0);C.position.set(30,20,30);ctrl.update();return}
+  const box=new THREE.Box3();parts.forEach(p=>box.expandByObject(p));
+  const c=new THREE.Vector3(),s=new THREE.Vector3();box.getCenter(c);box.getSize(s);
+  const d=Math.max(s.x,s.y,s.z)*1.6;
+  ctrl.target.copy(c);C.position.set(c.x+d*.6,c.y+d*.4,c.z+d*.6);ctrl.update();
 }
 window.focusHouse=focusHouse;
 
-// Day/night
-let time=0;
+// --- SAVE/LOAD ---
+function saveHouse(){
+  const data=parts.map(p=>({type:p.userData.type,pos:[p.position.x,p.position.y,p.position.z],rot:p.rotation.y}));
+  const fdata=furn.map(f=>({type:f.userData.fType,pos:[f.position.x,f.position.y,f.position.z]}));
+  localStorage.setItem('ib3d_house',JSON.stringify({parts:data,furn:fdata}));
+  alert('💾 House saved!')
+}
+function loadHouse(){
+  try{const d=JSON.parse(localStorage.getItem('ib3d_house'));if(!d)return;
+    parts.forEach(p=>S.remove(p));furn.forEach(f=>S.remove(f));parts=[];furn=[];
+    d.parts.forEach(p=>{const fn={foundation:buildFoundation,wall:buildWall,window:buildWindow,door:buildDoor,roof:buildRoof,floor:buildFloor,fence:buildFence};if(fn[p.type]){const g=fn[p.type](p.pos[0],p.pos[2]);g.rotation.y=p.rot||0}});
+    d.furn.forEach(f=>{buildFurniture(f.pos[0],f.pos[2],f.type)});
+  }catch(e){alert('Load failed')}
+}
+function clearAll(){if(confirm('Clear everything?')){parts.forEach(p=>S.remove(p));furn.forEach(f=>S.remove(f));parts=[];furn=[]}}
+window.saveHouse=saveHouse;window.loadHouse=loadHouse;window.clearAll=clearAll;
+
+// --- DAY/NIGHT ---
 function animate(){
   requestAnimationFrame(animate);
-  time+=.001;
-  const t=Math.sin(time*.1)*.5+.5; // 0-1 cycle
-  sun.intensity=2+3*t;
-  ambient.intensity=.5+1*t;
-  hemi.intensity=.3+.8*t;
-  const skyTop=new THREE.Color().lerpColors(new THREE.Color('#1a1a3a'),new THREE.Color('#4a90d9'),t);
-  const skyBot=new THREE.Color().lerpColors(new THREE.Color('#2a2a4a'),new THREE.Color('#c8ddf0'),t);
-  sky.material.uniforms.topColor.value=skyTop;
-  sky.material.uniforms.bottomColor.value=skyBot;
-  scene.background=new THREE.Color().lerpColors(new THREE.Color('#1a2a3a'),new THREE.Color('#87CEEB'),t);
-  scene.fog.color.copy(scene.background);
-  controls.update();
-  renderer.render(scene,camera);
+  time+=.0008;
+  const t=Math.sin(time*.08)*.5+.5;
+  sun.intensity=2+4*t;S.children.find(c=>c.isAmbientLight)?.intensity&&(S.children.forEach(c=>{if(c.isAmbientLight)c.intensity=.6+1.2*t}));
+  const top=new THREE.Color().lerpColors(new THREE.Color('#1a2a50'),new THREE.Color('#4a90d9'),t);
+  const bot=new THREE.Color().lerpColors(new THREE.Color('#2a3a5a'),new THREE.Color('#d8e8f8'),t);
+  skyMat.uniforms.t.value=top;skyMat.uniforms.b.value=bot;
+  S.background=new THREE.Color().lerpColors(new THREE.Color('#1a2a3a'),new THREE.Color('#87CEEB'),t);
+  S.fog.color.copy(S.background);
+  walk();ctrl.update();R.render(S,C);
 }
 animate();
 
-// Resize
-function resize(){renderer.setSize(window.innerWidth,window.innerHeight);camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix()}
+function resize(){R.setSize(innerWidth,innerHeight);C.aspect=innerWidth/innerHeight;C.updateProjectionMatrix()}
 window.addEventListener('resize',resize);resize();
-
-// Init
-document.getElementById('b-foundation').classList.add('sel');
-updateInfo();
+upInfo();
 </script>
 </body>
 </html>

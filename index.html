@@ -112,7 +112,7 @@ RM.addEventListener('click',e=>{
   if(GS.house==null)return;
   const r=CV.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
   if(mode==='build'){
-    const t=gR();if(!t||t.it!=='furn'){GS.struct[getNextBuild()]=(GS.struct[getNextBuild()]||0)+1;draw();updateUI();const nb=getNextBuild();if(GS.struct[nb]===getBuildGoal(nb)){GS.struct[nb]=getBuildGoal(nb);draw();updateUI();tm('✅ '+getBuildLabel(nb)+' complete!')}return}
+    const t=gR();if(!t||t.it!=='furn'){const nb=getNextBuild();GS.struct[nb]=getBuildGoal(nb);draw();updateUI();tm('✅ '+getBuildLabel(nb)+' complete!');return}
     if(GS.selFurn==null){tm('Select furniture first!');return}
     const f=FURN[GS.selFurn];GS.furn[GS.house+'_f_'+(GS.bld[gk()]||0)]={fi:GS.selFurn,x:mx-f.w/2,y:my-f.h/2};GS.bld[gk()]=(GS.bld[gk()]||0)+1;if(GS.bld[gk()]>=t.nd)nxt();draw();updateUI();return
   }

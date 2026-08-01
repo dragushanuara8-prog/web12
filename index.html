@@ -79,13 +79,11 @@ line.rotation.x=-Math.PI/2;line.position.set(18.8,0.03,0);scene.add(line);
 const line2=line.clone();line2.position.x=21.2;scene.add(line2);
 
 // ── SKY SPHERE ──
-const skySphere=new THREE.Mesh(
-  new THREE.SphereGeometry(90,32,32),
-  new THREE.ShaderMaterial({
-    uniforms:{top:{value:new THREE.Color(0x4a90d9)},bottom:{value:new THREE.Color(0xc8e8ff)}},
-    vertexShader:'varying vec3 wpos;void main(){vec4 wp=modelMatrix*vec4(position,1.0);wpos=wp.xyz;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader:'uniform vec3 top,bottom;varying vec3 wpos;void main(){float h=normalize(wpos+vec3(0,30,0)).y;gl_FragColor=vec4(mix(bottom,top,smoothstep(0.0,1.0,h)),1.0);}',
-    side:THREE.BackSide,depthWrite:false
+uniforms:{top:{value:new THREE.Color(0x1e5aa8)},bottom:{value:new THREE.Color(0x4fa3e3)}},
+  
+  
+    
+    
   })
 );
 scene.add(skySphere);
